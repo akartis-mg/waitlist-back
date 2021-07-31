@@ -8,7 +8,9 @@ const { validationResult } = require('express-validator');
 // @desc     Register user & get token
 // @access   Public
 exports.register = async (req, res, next) => {
-	const { firstname, lastname, email, password } = req.body;
+	const { firstname, lastname, email, phone, password } = req.body;
+
+	console.log("FN: ", firstname, " LN: ", lastname, " EMAIL: ", email, " phone: ", phone, " PWD: ", password);
 
 	try {
 		const existingUser = await User.findOne({ email });
@@ -20,6 +22,7 @@ exports.register = async (req, res, next) => {
 		const user = new User({
 			firstname,
 			lastname,
+			phone,
 			email,
 			password
 		})
@@ -72,7 +75,7 @@ exports.login = async (req, res, next) => {
 
 	} catch (err) {
 		console.error(err.message);
-		res.status(500).send('Server error');
+		res.status(500).send(err);
 	}
 }
 
