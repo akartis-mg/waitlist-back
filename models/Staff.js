@@ -2,6 +2,10 @@ const mongoose = require("mongoose");
 
 const StaffSchema = new mongoose.Schema(
     {
+      bid: {
+        type: String,
+        require: true,
+      },
         name : { type : String },
         email : { type : String },
         password : { type : String },
@@ -11,4 +15,4 @@ const StaffSchema = new mongoose.Schema(
   );
 
 
-module.exports = Reservation = mongoose.model("Reservation", StaffSchema); 
+module.exports = Staff = mongoose.model("Staff", StaffSchema); 

@@ -1,8 +1,16 @@
-const express = require('express');
-const {  } = require("../controller/typeCompany.js");
+const express = require("express");
+const {
+  findOneTypeCompany,
+  findAllTypeCompany,
+} = require("../controller/typeCompany.js");
+
+const { check, validationResult } = require("express-validator");
+
+const auth = require("../middleware/auth");
 
 const router = express.Router();
 
-
+router.route("/findOneTypeCompany").get(findOneTypeCompany);
+router.route("/findAllTypeCompany").get(findAllTypeCompany);
 
 module.exports = router;

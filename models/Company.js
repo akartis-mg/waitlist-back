@@ -9,7 +9,7 @@ const CompanySchema = new mongoose.Schema(
                 ref: 'TypeCompany'
             }
         ],
-        type: [
+        branchs: [
             {
                 type: mongoose.Schema.Types.ObjectId,
                 ref: 'Branch'
