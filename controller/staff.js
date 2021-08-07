@@ -11,9 +11,15 @@ exports.createStaff = async (req, res, next) => {
     try {
         const savedstaff = await staff.save();
 
-        const branch = await Branch.findOne({ _id: bid })
-        branch.staffs.push(savedstaff);
-        await branch.save();
+         req.body.bid.map( async (bid) => {
+
+            const branch = await Branch.findOne({ _id: bid })
+            branch.staffs.push(savedstaff);
+            await branch.save();
+
+     });
+
+        
 
         res.status(200).json(savedstaff);
     } catch (error) {
@@ -91,13 +97,19 @@ exports.deleteStaff = async (req, res, next) => {
 
         const deletedStaff = await staff.remove();
 
-        const branch = await Branch.findOne({ _id: bid });
-        for (let x in branch.staffs) {
-            if (branch.staffs[x] == sid) {
-                branch.staffs.pull(branch.staffs[x]);
-                await branch.save();
+        bid.map( async (bid) => {
+
+            const branch = await Branch.findOne({ _id: bid });
+            for (let x in branch.staffs) {
+                if (branch.staffs[x] == sid) {
+                    branch.staffs.pull(branch.staffs[x]);
+                    await branch.save();
+                }
             }
-        }
+
+        });
+
+       
 
         res.status(202).json(deletedStaff);
 

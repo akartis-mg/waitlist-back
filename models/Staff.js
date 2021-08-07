@@ -2,10 +2,11 @@ const mongoose = require("mongoose");
 
 const StaffSchema = new mongoose.Schema(
     {
-      bid: {
-        type: String,
-        require: true,
-      },
+      bid: 
+      [{
+          type: mongoose.Schema.Types.ObjectId,
+          ref: 'Branch'
+      }],
         name : { type : String },
         email : { type : String },
         password : { type : String },

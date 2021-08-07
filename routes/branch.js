@@ -5,9 +5,9 @@ const  auth  = require('../middleware/auth');
 
 const router = express.Router();
 
-router.route("/newBranch").post( auth ,  createBranch);
+router.route("/newBranch").post( auth , createBranch);
 router.route("/findOneBranch").get( auth ,  getOneBranch);
-router.route("/findAllBranch").get( auth , getBranch);
+router.route("/findAllBranch").get( auth ,  getBranch);
 router.route("/updatebranch").put( auth , updateBranch);
 router.route("/deletebranch").delete( auth, deleteBranch);
 
