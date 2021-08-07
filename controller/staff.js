@@ -34,7 +34,7 @@ exports.getOneStaff = async (req, res, next) => {
     const sid = req.body.staffId ;
 
     try {
-        const staff = await Staff.findOne({ _id: sid })
+        const staff = await Staff.findOne({ _id: sid });
         res.status(200).json(staff);
     } catch (error) {
         next(error);
@@ -45,10 +45,25 @@ exports.getOneStaff = async (req, res, next) => {
 
 exports.getStaff = async (req, res, next) => {
 
-    try {
-        const staff = await Staff.find({  });
+    const type = req.body.type ;
 
-        res.status(200).json(staff);
+    try {
+
+        if (type === "Manager" ){
+            const sid =  req.body.sid;
+            const staff = await Staff.findOne({ _id: sid });
+            const resultstaff = await Staff.findOne({ bid : staff.bid , _ui : sid });
+            res.status(200).json(resultstaff);
+        }
+
+        else {
+
+            const staff = await Staff.find({});
+            res.status(200).json(staff);
+
+        }
+
+      
 
     } catch (error) {
         next(error);
