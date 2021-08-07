@@ -8,10 +8,10 @@ const { createCompany, getOneCompany , getCompany , updateCompany, deleteCompany
 
 const router = express.Router();
 
-router.route("/newCompany").post( createCompany);
-router.route("/findOneCompany").get( getOneCompany);
-router.route("/findAllCompany").get( getCompany);
-router.route("/updateCompany").put( updateCompany);
-router.route("/deleteCompany").delete( deleteCompany);
+router.route("/newCompany").post( auth ,  createCompany);
+router.route("/findOneCompany").get( auth, getOneCompany);
+router.route("/findAllCompany").get( auth , getCompany);
+router.route("/updateCompany").put( auth , updateCompany);
+router.route("/deleteCompany").delete( auth , deleteCompany);
 
 module.exports = router;

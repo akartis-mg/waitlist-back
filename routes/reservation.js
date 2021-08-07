@@ -4,10 +4,10 @@ const { createReservation , getOneReservation , getReservation , updateReservati
 const router = express.Router();
 const  auth  = require('../middleware/auth');
 
-router.route("/newReservation").post( createReservation);
-router.route("/findOneReservation").get( getOneReservation);
-router.route("/findAllReservation").get( getReservation);
-router.route("/updateReservation").put( updateReservation);
-router.route("/deleteReservation").delete( deleteReservation);
+router.route("/newReservation").post( auth ,  createReservation);
+router.route("/findOneReservation").get( auth , getOneReservation);
+router.route("/findAllReservation").get( auth , getReservation);
+router.route("/updateReservation").put(auth , updateReservation);
+router.route("/deleteReservation").delete( auth , deleteReservation);
 
 module.exports = router;
