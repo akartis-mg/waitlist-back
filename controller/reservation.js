@@ -40,10 +40,28 @@ exports.getOneReservation = async (req, res, next) => {
 
 exports.getReservation = async (req, res, next) => {
 
-    try {
-        const reservation = await Reservation.find({});
+    const type = req.body.type ;
 
-        res.status(200).json(reservation);
+    try {
+
+        if( type === "Customer") {
+            const uid = req.body.uid ;
+            const reservation = await Reservation.find({  uid : uid }  );
+
+            res.status(200).json(reservation);
+
+        }
+
+        else{
+            const bid = req.body.bid ;
+            
+            const reservation = await Reservation.find({ bid : bid  });
+
+            res.status(200).json(reservation);
+        }
+
+
+        
 
     } catch (error) {
         next(error);
@@ -66,8 +84,6 @@ exports.updateReservation = async (req, res, next) => {
         reservation.date_reservation = req.body.date_reservation;
         reservation.time = req.body.time;
         reservation.nb_spots = req.body.nb_spots;
-        reservation.phone = req.body.phone; 
-
         const updatedReservation = await reservation.save();
 
         res.status(200).json(updatedReservation);

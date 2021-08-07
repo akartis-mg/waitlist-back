@@ -2,15 +2,21 @@ const mongoose = require("mongoose");
 
 const ReservationSchema = new mongoose.Schema(
     {
-      bid: {
-        type: String,
-        require: true,
+      bid: 
+      {
+          type: mongoose.Schema.Types.ObjectId,
+          ref: 'Branch'
       },
+      uid: 
+      {
+          type: mongoose.Schema.Types.ObjectId,
+          ref: 'Users'
+      }
+      ,
         name : { type : String } , 
         date_reservation : { type : Date },
         time : { type : Date },
-        nb_spots : { type : Number },
-        phone : { type : Number }
+        nb_spots : { type : Number }
 
     },
     { timestamps: true }

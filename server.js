@@ -13,11 +13,12 @@ app.use(express.json());
 //Define Routes 
 app.use('/api/auth', require('./routes/auth'));
 app.use('/api/authBusiness', require('./routes/authBusiness'));
-/*app.use('/api/typeCompany', require('./routes/typeCompany'));
+app.use('/api/typeCompany', require('./routes/typeCompany'));
+app.use('/api/typeCompany', require('./routes/typeCompany'));
 app.use('/api/company', require('./routes/company'));
 app.use('/api/branch', require('./routes/branch'));
 app.use('/api/reservation', require('./routes/reservation'));
-app.use('/api/staff', require('./routes/staff'));*/
+app.use('/api/staff', require('./routes/staff'));
 
 app.get('/', (req, res) => res.json({ msg: 'Welcome to the Waitlist.....' }));
 

@@ -1,6 +1,6 @@
 const Company = require('../models/Company');
-const TypeCompany = require('../models/TypeCompany');
 const Branch  = require('../models/Branch');
+const Staff =  require('../models/Staff');
 
 
 exports.createBranch = async (req, res, next) => {
@@ -39,10 +39,39 @@ exports.getOneBranch = async (req, res, next) => {
 
 exports.getBranch = async (req, res, next) => {
 
-    try {
-        const branch = await Branch.find({});
+    const type = req.body.type ;
 
-        res.status(200).json(branch);
+    try {
+
+         if( type === "Customer" )
+         {
+             const branch = await Branch.find({});
+             res.status(200).json(branch);
+         }
+
+         else if ( type === "Manager" ){
+
+            const sid = req.body.staffId ;
+
+          //  const staff = await Staff.find({ _id : sid });
+          //  const cid = req.body.cid ;
+
+           // const branch = await Branch.find({ cid : cid });
+
+            const branch = await Branch.find( { staffs: sid } );
+    
+            res.status(200).json(branch);
+         }
+
+         else{
+
+            const cid = req.body.cid ;
+            const branch = await Branch.find({ cid : cid });
+
+            res.status(200).json(branch);
+           
+        }
+
 
     } catch (error) {
         next(error);

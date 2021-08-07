@@ -11,9 +11,15 @@ exports.createStaff = async (req, res, next) => {
     try {
         const savedstaff = await staff.save();
 
-        const branch = await Branch.findOne({ _id: bid })
-        branch.staffs.push(savedstaff);
-        await branch.save();
+         req.body.bid.map( async (bid) => {
+
+            const branch = await Branch.findOne({ _id: bid })
+            branch.staffs.push(savedstaff);
+            await branch.save();
+
+     });
+
+        
 
         res.status(200).json(savedstaff);
     } catch (error) {
@@ -28,7 +34,7 @@ exports.getOneStaff = async (req, res, next) => {
     const sid = req.body.staffId ;
 
     try {
-        const staff = await Staff.findOne({ _id: sid })
+        const staff = await Staff.findOne({ _id: sid });
         res.status(200).json(staff);
     } catch (error) {
         next(error);
@@ -39,10 +45,25 @@ exports.getOneStaff = async (req, res, next) => {
 
 exports.getStaff = async (req, res, next) => {
 
-    try {
-        const staff = await Staff.find({  });
+    const type = req.body.type ;
 
-        res.status(200).json(staff);
+    try {
+
+        if (type === "Manager" ){
+            const sid =  req.body.sid;
+            const staff = await Staff.findOne({ _id: sid });
+            const resultstaff = await Staff.findOne({ bid : staff.bid , _ui : sid });
+            res.status(200).json(resultstaff);
+        }
+
+        else {
+
+            const staff = await Staff.find({});
+            res.status(200).json(staff);
+
+        }
+
+      
 
     } catch (error) {
         next(error);
@@ -91,13 +112,19 @@ exports.deleteStaff = async (req, res, next) => {
 
         const deletedStaff = await staff.remove();
 
-        const branch = await Branch.findOne({ _id: bid });
-        for (let x in branch.staffs) {
-            if (branch.staffs[x] == sid) {
-                branch.staffs.pull(branch.staffs[x]);
-                await branch.save();
+        bid.map( async (bid) => {
+
+            const branch = await Branch.findOne({ _id: bid });
+            for (let x in branch.staffs) {
+                if (branch.staffs[x] == sid) {
+                    branch.staffs.pull(branch.staffs[x]);
+                    await branch.save();
+                }
             }
-        }
+
+        });
+
+       
 
         res.status(202).json(deletedStaff);
 

@@ -5,10 +5,13 @@ const jwt = require('jsonwebtoken');
 
 const StaffSchema = new mongoose.Schema(
   {
-    bid: {
-      type: String,
-      required: true,
-    },
+    bid: [
+      {
+        type: mongoose.Schema.Types.ObjectId,
+        ref: 'Branch',
+        required: true
+      }
+    ],
     firstname: {
       type: String,
       required: true
