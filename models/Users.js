@@ -32,6 +32,11 @@ const UserSchema = new mongoose.Schema({
     minlength: 6,
     select: false
   },
+  type: {
+    type: String,
+    required: true,
+    default: "Customer"
+  },
   resetPasswordToken: String,
   resetPasswordExpire: Date,
 },
