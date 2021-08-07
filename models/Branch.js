@@ -19,38 +19,38 @@ const BranchSchema = new mongoose.Schema(
       opening_days: {
         monday: {
           open: { type: Boolean },
-          open_hour: { type: Date },
-          closing_hour: { type: Date },
+          open_hour: { type: Number },
+          closing_hour: { type: Number },
         },
         tuesday: {
           open: { type: Boolean },
-          open_hour: { type: Date },
-          closing_hour: { type: Date },
+          open_hour: { type: Number },
+          closing_hour: { type: Number },
         },
         wednesday: {
           open: { type: Boolean },
-          open_hour: { type: Date },
-          closing_hour: { type: Date },
+          open_hour: { type: Number },
+          closing_hour: { type: Number },
         },
         thursday: {
           open: { type: Boolean },
-          open_hour: { type: Date },
-          closing_hour: { type: Date },
+          open_hour: { type: Number },
+          closing_hour: { type: Number },
         },
         friday: {
           open: { type: Boolean },
-          open_hour: { type: Date },
-          closing_hour: { type: Date },
+          open_hour: { type: Number },
+          closing_hour: { type: Number },
         },
         saturday: {
           open: { type: Boolean },
-          open_hour: { type: Date },
-          closing_hour: { type: Date },
+          open_hour: { type: Number },
+          closing_hour: { type: Number },
         },
         sunday: {
           open: { type: Boolean },
-          open_hour: { type: Date },
-          closing_hour: { type: Date },
+          open_hour: { type: Number },
+          closing_hour: { type: Number },
         },
       },
       phone: {
