@@ -6,7 +6,7 @@ const BranchSchema = new mongoose.Schema(
       type: String,
       require: true,
     },
-    IsActive : { type: Boolean },
+    isActive : { type: Boolean },
     name: { type: String },
     average_duration: { type: Number },
     address: {
@@ -85,7 +85,7 @@ const BranchSchema = new mongoose.Schema(
 );
 
 BranchSchema.pre('save', function (next) {
-  this.IsActive = true;
+  this.isActive = true;
   
 }) 
 
