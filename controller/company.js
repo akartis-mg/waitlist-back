@@ -2,7 +2,7 @@ const Company = require('../models/Company');
 const TypeCompany = require('../models/TypeCompany');
 
 exports.createCompany = async (req, res, next) => {
-    const company = new Company(req.body.company);
+    const company = new Company(req.body.name);
 
     try {
         const typeCompany = await TypeCompany.findOne({ _id: req.body.typeCompanyID });
