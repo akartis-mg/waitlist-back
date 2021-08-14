@@ -45,7 +45,7 @@ exports.getBranch = async (req, res, next) => {
 
          if( type === "Customer" )
          {
-             const branch = await Branch.find({});
+             const branch = await Branch.find({  IsActive : true  });
              res.status(200).json(branch);
          }
 
@@ -60,7 +60,7 @@ exports.getBranch = async (req, res, next) => {
 
            // const branch = await Branch.find({ cid : cid });
 
-            const branch = await Branch.find( { staffs: sid } );
+            const branch = await Branch.find( { staffs: sid , IsActive : true  } );
     
             res.status(200).json(branch);
          }
@@ -68,7 +68,7 @@ exports.getBranch = async (req, res, next) => {
          else{
 
             const cid = req.body.cid ;
-            const branch = await Branch.find({ cid : cid });
+            const branch = await Branch.find({ cid : cid , IsActive : true  });
 
             res.status(200).json(branch);
            
@@ -119,17 +119,18 @@ exports.deleteBranch = async (req, res, next) => {
             return next(new ErrorResponse("Branch cannot be deleted", 404));
         }
 
-        const cid = branch.cid;
+        branch.IsActive = false;
+        const deletedBranch = await branch.save();
 
-        const deletedBranch = await branch.remove();
-
-        const company = await Company.findOne({ _id: cid });
-        for (let x in company.branchs) {
-            if (company.branchs[x] == bid) {
-                company.branchs.pull(company.branchs[x]);
-                await company.save();
-            }
-        }
+        // const cid = branch.cid;
+        // const deletedBranch = await branch.remove();
+        // const company = await Company.findOne({ _id: cid });
+        // for (let x in company.branchs) {
+        //     if (company.branchs[x] == bid) {
+        //         company.branchs.pull(company.branchs[x]);
+        //         await company.save();
+        //     }
+        // }
 
         res.status(202).json(deletedBranch);
 

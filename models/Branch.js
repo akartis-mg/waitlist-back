@@ -6,6 +6,7 @@ const BranchSchema = new mongoose.Schema(
       type: String,
       require: true,
     },
+    IsActive : { type: Boolean },
     name: { type: String },
     average_duration: { type: Number },
     address: {
@@ -82,5 +83,10 @@ const BranchSchema = new mongoose.Schema(
   },
   { timestamps: true }
 );
+
+BranchSchema.pre('save', function (next) {
+  this.IsActive = true;
+  
+}) 
 
 module.exports = Branch = mongoose.model("Branch", BranchSchema);

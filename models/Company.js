@@ -3,6 +3,7 @@ const mongoose = require("mongoose");
 const CompanySchema = new mongoose.Schema(
     {
         name: { type: String },
+        IsActive : { type: Boolean },
         typeCompany: 
             {
                 type: mongoose.Schema.Types.ObjectId,
@@ -19,6 +20,12 @@ const CompanySchema = new mongoose.Schema(
     },
     { timestamps: true }
   );
+
+
+  CompanySchema.pre('save', function (next) {
+    this.IsActive = true;
+    
+})  
 
 
 module.exports = Company = mongoose.model("Company", CompanySchema);  

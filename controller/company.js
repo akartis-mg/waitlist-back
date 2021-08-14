@@ -33,7 +33,7 @@ exports.getOneCompany = async (req, res, next) => {
 exports.getCompany = async (req, res, next) => {
 
     try {
-        const company = await Company.find({}).populate('branchs');
+        const company = await Company.find({ IsActive : true }).populate('branchs');
 
         res.status(200).json(company);
 
@@ -78,9 +78,11 @@ exports.deleteCompany = async (req, res, next) => {
             return next(new ErrorResponse("Company cannot be updated", 404));
         }
 
-        const deletedcompany = await company.remove();
+        company.IsActive = false ;   
+        const deletedcompany = await company.save();
+
+        res.status(200).json(deletedcompany);
       
-        res.status(202).json(deletedcompany);
 
     } catch (error) {
         next(error);
