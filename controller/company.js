@@ -2,12 +2,11 @@ const Company = require('../models/Company');
 const TypeCompany = require('../models/TypeCompany');
 
 exports.createCompany = async (req, res, next) => {
-    const type = req.body.type;
     const company = new Company(req.body.company);
 
     try {
-        const typeCompany = await TypeCompany.findOne({ name : type });
-        company.typeCompany = typeCompany;
+        const typeCompany = await TypeCompany.findOne({ _id: req.body.typeCompanyID });
+        company.typeCompanyID = typeCompany;
 
         const savedcompany = await company.save();
         res.status(200).json(savedcompany);
@@ -18,7 +17,7 @@ exports.createCompany = async (req, res, next) => {
 
 exports.getOneCompany = async (req, res, next) => {
 
-    const cid = req.body.companyId ;
+    const cid = req.body.companyId;
 
     try {
         const company = await Company.findOne({ _id: cid })
@@ -45,7 +44,7 @@ exports.getCompany = async (req, res, next) => {
 
 
 exports.updateCompany = async (req, res, next) => {
-  
+
     const cid = req.body.companyId;
 
     try {
@@ -55,7 +54,7 @@ exports.updateCompany = async (req, res, next) => {
             return next(new ErrorResponse("company cannot be updated", 404));
         }
 
-        company.name = req.body.name;      
+        company.name = req.body.name;
         const updatedcompany = await company.save();
 
         res.status(200).json(updatedcompany);
@@ -79,7 +78,7 @@ exports.deleteCompany = async (req, res, next) => {
         }
 
         const deletedcompany = await company.remove();
-      
+
         res.status(202).json(deletedcompany);
 
     } catch (error) {
