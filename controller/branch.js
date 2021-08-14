@@ -45,7 +45,7 @@ exports.getBranch = async (req, res, next) => {
 
          if( type === "Customer" )
          {
-             const branch = await Branch.find({  IsActive : true  });
+             const branch = await Branch.find({  isActive : true  });
              res.status(200).json(branch);
          }
 
@@ -60,7 +60,7 @@ exports.getBranch = async (req, res, next) => {
 
            // const branch = await Branch.find({ cid : cid });
 
-            const branch = await Branch.find( { staffs: sid , IsActive : true  } );
+            const branch = await Branch.find( { staffs: sid , isActive : true  } );
     
             res.status(200).json(branch);
          }
@@ -68,7 +68,7 @@ exports.getBranch = async (req, res, next) => {
          else{
 
             const cid = req.body.cid ;
-            const branch = await Branch.find({ cid : cid , IsActive : true  });
+            const branch = await Branch.find({ cid : cid , isActive : true  });
 
             res.status(200).json(branch);
            

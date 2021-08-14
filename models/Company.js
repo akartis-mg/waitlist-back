@@ -3,6 +3,7 @@ const mongoose = require("mongoose");
 const CompanySchema = new mongoose.Schema(
     {
         name: { type: String },
+        isActive : { type: Boolean },
         typeCompanyID:
         {
             type: mongoose.Schema.Types.ObjectId,
@@ -22,7 +23,7 @@ const CompanySchema = new mongoose.Schema(
 
 
 CompanySchema.pre('save', function (next) {
-    this.IsActive = true;
+    this.isActive = true;
 
 })
 
