@@ -2,13 +2,20 @@ const Company = require('../models/Company');
 const TypeCompany = require('../models/TypeCompany');
 
 exports.createCompany = async (req, res, next) => {
-    const company = new Company(req.body.name);
+    const onecompany = new Company(req.body.name);
+
+    
 
     try {
-        const typeCompany = await TypeCompany.findOne({ _id: req.body.typeCompanyID });
-        company.typeCompanyID = typeCompany;
 
-        const savedcompany = await company.save();
+        
+        const typeCompany = await TypeCompany.findOne({ _id: req.body.typeCompanyID });
+        
+        onecompany.typeCompanyID = typeCompany;
+
+
+        const savedcompany = await onecompany.save();
+        
         res.status(200).json(savedcompany);
     } catch (error) {
         next(error);

@@ -1,12 +1,12 @@
 const Company = require('../models/Company');
-const Branch  = require('../models/Branch');
-const Staff =  require('../models/Staff');
+const Branch = require('../models/Branch');
+const Staff = require('../models/Staff');
 
 
 exports.createBranch = async (req, res, next) => {
-    
+
     const cid = req.body.cid;
-    const branch = new Branch(req.body);
+    const branch = new Branch(req.body.branch);
 
     try {
         const savedbranch = await branch.save();
@@ -25,10 +25,10 @@ exports.createBranch = async (req, res, next) => {
 
 exports.getOneBranch = async (req, res, next) => {
 
-    const bid = req.body.branchId ;
+    const bid = req.body.branchId;
 
     try {
-        const branch = await Branch.findOne({ _id : bid })
+        const branch = await Branch.findOne({ _id: bid })
         res.status(200).json(branch);
     } catch (error) {
         next(error);
@@ -39,39 +39,38 @@ exports.getOneBranch = async (req, res, next) => {
 
 exports.getBranch = async (req, res, next) => {
 
-    const type = req.body.type ;
+    const type = req.body.type;
 
     try {
 
-         if( type === "Customer" )
-         {
-             const branch = await Branch.find({  isActive : true  });
-             res.status(200).json(branch);
-         }
-
-         else if ( type === "Manager" ){
-
-            const sid = req.body.staffId ;
-
-            
-
-          //  const staff = await Staff.find({ _id : sid });
-          //  const cid = req.body.cid ;
-
-           // const branch = await Branch.find({ cid : cid });
-
-            const branch = await Branch.find( { staffs: sid , isActive : true  } );
-    
+        if (type === "Customer") {
+            const branch = await Branch.find({ isActive: true });
             res.status(200).json(branch);
-         }
+        }
 
-         else{
+        else if (type === "Manager") {
 
-            const cid = req.body.cid ;
-            const branch = await Branch.find({ cid : cid , isActive : true  });
+            const sid = req.body.staffId;
+
+
+
+            //  const staff = await Staff.find({ _id : sid });
+            //  const cid = req.body.cid ;
+
+            // const branch = await Branch.find({ cid : cid });
+
+            const branch = await Branch.find({ staffs: sid, isActive: true });
 
             res.status(200).json(branch);
-           
+        }
+
+        else {
+
+            const cid = req.body.cid;
+            const branch = await Branch.find({ cid: cid, isActive: true });
+
+            res.status(200).json(branch);
+
         }
 
 
@@ -96,7 +95,7 @@ exports.updateBranch = async (req, res, next) => {
         branch.average_duration = req.body.average_duration;
         branch.address = req.body.address;
         branch.info = req.body.info;
-        branch.spots = req.body.spots; 
+        branch.spots = req.body.spots;
 
         const updatedBranch = await branch.save();
 
