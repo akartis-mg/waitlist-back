@@ -48,7 +48,7 @@ exports.getBranch = async (req, res, next) => {
             res.status(200).json(branch);
         }
 
-        else if (type === "Manager") {
+        else if (type === "Manager" || type ==="Staff"  ) {
 
             const sid = req.body.staffId;
 
