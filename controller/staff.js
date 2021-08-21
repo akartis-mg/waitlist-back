@@ -1,25 +1,25 @@
 const Company = require('../models/Company');
-const Branch  = require('../models/Branch');
-const Staff =  require('../models/Staff');
+const Branch = require('../models/Branch');
+const Staff = require('../models/Staff');
 
 
 exports.createStaff = async (req, res, next) => {
-    
-    const bid = req.body.bid;
-    const staff = new Staff(req.body);
+
+    const bid = [req.body.bid];
+    const staff = new Staff(req.body.manager);
 
     try {
         const savedstaff = await staff.save();
 
-         req.body.bid.map( async (bid) => {
+        bid.map(async (bid) => {
 
             const branch = await Branch.findOne({ _id: bid })
             branch.staffs.push(savedstaff);
             await branch.save();
 
-     });
+        });
 
-        
+
 
         res.status(200).json(savedstaff);
     } catch (error) {
@@ -31,7 +31,7 @@ exports.createStaff = async (req, res, next) => {
 
 exports.getOneStaff = async (req, res, next) => {
 
-    const sid = req.body.staffId ;
+    const sid = req.body.staffId;
 
     try {
         const staff = await Staff.findOne({ _id: sid });
@@ -45,14 +45,14 @@ exports.getOneStaff = async (req, res, next) => {
 
 exports.getStaff = async (req, res, next) => {
 
-    const type = req.body.type ;
+    const type = req.body.type;
 
     try {
 
-        if (type === "Manager" ){
-            const sid =  req.body.sid;
+        if (type === "Manager") {
+            const sid = req.body.sid;
             const staff = await Staff.findOne({ _id: sid });
-            const resultstaff = await Staff.findOne({ bid : staff.bid , _ui : sid });
+            const resultstaff = await Staff.findOne({ bid: staff.bid, _ui: sid });
             res.status(200).json(resultstaff);
         }
 
@@ -63,7 +63,7 @@ exports.getStaff = async (req, res, next) => {
 
         }
 
-      
+
 
     } catch (error) {
         next(error);
@@ -85,7 +85,7 @@ exports.updateStaff = async (req, res, next) => {
         staff.name = req.body.name;
         staff.email = req.body.email;
         staff.password = req.body.password;
-        staff.type = req.body.type; 
+        staff.type = req.body.type;
 
         const updateStaff = await staff.save();
 
@@ -112,7 +112,7 @@ exports.deleteStaff = async (req, res, next) => {
 
         const deletedStaff = await staff.remove();
 
-        bid.map( async (bid) => {
+        bid.map(async (bid) => {
 
             const branch = await Branch.findOne({ _id: bid });
             for (let x in branch.staffs) {
@@ -124,7 +124,7 @@ exports.deleteStaff = async (req, res, next) => {
 
         });
 
-       
+
 
         res.status(202).json(deletedStaff);
 
