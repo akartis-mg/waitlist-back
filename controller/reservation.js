@@ -12,7 +12,9 @@ exports.createReservation = async (req, res, next) => {
     try {
         const savedreservation = await reservation.save();
 
-        const branch = await Branch.findOne({ _id: bid })
+        const branch = await Branch.findOne({ _id: bid });
+        branch.spots.available = branch.spots.available - savedreservation.nb_spots;
+        branch.spots.not_available = branc.spots.not_available + savedreservation.nb_spots;
         branch.reservations.push(savedreservation);
         await branch.save();
 
@@ -72,7 +74,7 @@ exports.getReservation = async (req, res, next) => {
 // Update a todo
 exports.updateReservation = async (req, res, next) => {
     const rid = req.body.reservationId;
-
+    const bid = req.body.bid;
     try {
         const reservation = await Reservation.findOne({ _id: rid });
 
@@ -80,11 +82,36 @@ exports.updateReservation = async (req, res, next) => {
             return next(new ErrorResponse("Reservation cannot be updated", 404));
         }
 
+        const branch = await Branch.findOne({ _id: bid });
+
+        if(req.body.status == "Done" ){
+             //initialise
+             branch.spots.available = branch.spots.available + reservation.nb_spots;
+             branch.spots.not_available = branc.spots.not_available - reservation.nb_spots;
+        }
+
+        else{
+            //initialise
+            branch.spots.available = branch.spots.available + reservation.nb_spots;
+            branch.spots.not_available = branc.spots.not_available - reservation.nb_spots;
+
+            //modify
+            branch.spots.available = branch.spots.available - req.body.nb_spots;
+            branch.spots.not_available = branc.spots.not_available + req.body.nb_spots;
+        }
+      
+        await branch.save();
+
+        reservation.status = req.body.status;
         reservation.name = req.body.name;
         reservation.date_reservation = req.body.date_reservation;
         reservation.time = req.body.time;
         reservation.nb_spots = req.body.nb_spots;
+
         const updatedReservation = await reservation.save();
+
+       // branch.spots.available = branch.spots.available - savedreservation.nb_spots;
+       // branch.spots.not_available = branc.spots.not_available + savedreservation.nb_spots;
 
         res.status(200).json(updatedReservation);
 
@@ -110,6 +137,10 @@ exports.deleteReservation = async (req, res, next) => {
         const deletedreservation = await reservation.remove();
 
         const branch = await Branch.findOne({ _id: bid });
+        //initialise
+        branch.spots.available = branch.spots.available + reservation.nb_spots;
+        branch.spots.not_available = branc.spots.not_available - reservation.nb_spots;
+
         for (let x in branch.reservations) {
             if (branch.reservations[x] == rid) {
                 branch.reservations.pull(branch.reservations[x]);
