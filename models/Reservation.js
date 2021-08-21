@@ -15,7 +15,7 @@ const ReservationSchema = new mongoose.Schema(
       ,
         name : { type : String } , 
         date_reservation : { type : Date },
-        time : { type : Date },
+        time : { type : Number },
         nb_spots : { type : Number }
 
     },
