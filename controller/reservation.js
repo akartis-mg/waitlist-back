@@ -84,16 +84,25 @@ exports.updateReservation = async (req, res, next) => {
 
         const branch = await Branch.findOne({ _id: bid });
 
-        //initialise
-        branch.spots.available = branch.spots.available + reservation.nb_spots;
-        branch.spots.not_available = branc.spots.not_available - reservation.nb_spots;
+        if(req.body.status == "Done" ){
+             //initialise
+             branch.spots.available = branch.spots.available + reservation.nb_spots;
+             branch.spots.not_available = branc.spots.not_available - reservation.nb_spots;
+        }
 
-        //modify
-        branch.spots.available = branch.spots.available - req.body.nb_spots;
-        branch.spots.not_available = branc.spots.not_available + req.body.nb_spots;
+        else{
+            //initialise
+            branch.spots.available = branch.spots.available + reservation.nb_spots;
+            branch.spots.not_available = branc.spots.not_available - reservation.nb_spots;
 
+            //modify
+            branch.spots.available = branch.spots.available - req.body.nb_spots;
+            branch.spots.not_available = branc.spots.not_available + req.body.nb_spots;
+        }
+      
         await branch.save();
 
+        reservation.status = req.body.status;
         reservation.name = req.body.name;
         reservation.date_reservation = req.body.date_reservation;
         reservation.time = req.body.time;

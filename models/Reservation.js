@@ -13,6 +13,7 @@ const ReservationSchema = new mongoose.Schema(
           ref: 'Users'
       }
       ,
+        status : { type : String , default: "Incoming" },
         name : { type : String } , 
         date_reservation : { type : Date },
         time : { type : Number },
