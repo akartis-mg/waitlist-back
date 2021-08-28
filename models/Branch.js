@@ -20,64 +20,43 @@ const BranchSchema = new mongoose.Schema(
       opening_days: {
         monday: {
           open: { type: Boolean },
-          hour_interval: [{
-            hours: { type: String },
-            seats: { type: Number }
-          }],
+          hour_interval: { type: Array },
           open_hour: { type: String },
           closing_hour: { type: String },
         },
         tuesday: {
           open: { type: Boolean },
-          hour_interval: [{
-            hours: { type: String },
-            seats: { type: Number }
-          }],
+          hour_interval: { type: Array },
           open_hour: { type: String },
           closing_hour: { type: String },
         },
         wednesday: {
           open: { type: Boolean },
-          hour_interval: [{
-            hours: { type: String },
-            seats: { type: Number }
-          }],
+          hour_interval: { type: Array },
           open_hour: { type: String },
           closing_hour: { type: String },
         },
         thursday: {
           open: { type: Boolean },
-          hour_interval: [{
-            hours: { type: String },
-            seats: { type: Number }
-          }],
+          hour_interval: { type: Array },
           open_hour: { type: String },
           closing_hour: { type: String },
         },
         friday: {
           open: { type: Boolean },
-          hour_interval: [{
-            hours: { type: String },
-            seats: { type: Number }
-          }],
+          hour_interval: { type: Array },
           open_hour: { type: String },
           closing_hour: { type: String },
         },
         saturday: {
           open: { type: Boolean },
-          hour_interval: [{
-            hours: { type: String },
-            seats: { type: Number }
-          }],
+          hour_interval: { type: Array },
           open_hour: { type: String },
           closing_hour: { type: String },
         },
         sunday: {
           open: { type: Boolean },
-          hour_interval: [{
-            hours: { type: String },
-            seats: { type: Number }
-          }],
+          hour_interval: { type: Array },
           open_hour: { type: String },
           closing_hour: { type: String },
         },

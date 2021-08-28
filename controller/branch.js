@@ -8,8 +8,14 @@ exports.createBranch = async (req, res, next) => {
     const cid = req.body.cid;
     const branch = new Branch(req.body.branch);
 
-    try {
+    /*for (let x in branch.info.opening_days) {
+        if (branch.info.opening_days[x].open) {
+            //branch.info.opening_days[x].hour_interval[0] = req.body.branch.info.opening_days[x].hour_interval[0];
+            branch.info.opening_days[x].hour_interval.push(req.body.branch.info.opening_days[x].hour_interval[0]);
+        }
+    }*/
 
+    try {
         const savedbranch = await branch.save();
 
         const company = await Company.findOne({ _id: cid })
@@ -17,13 +23,11 @@ exports.createBranch = async (req, res, next) => {
         await company.save();
 
         res.status(200).json(savedbranch);
+    }
 
-    } 
-    
     catch (error) {
         next(error);
     }
-
 }
 
 
@@ -52,7 +56,7 @@ exports.getBranch = async (req, res, next) => {
             res.status(200).json(branch);
         }
 
-        else if (type === "Manager" || type ==="Staff"  ) {
+        else if (type === "Manager" || type === "Staff") {
 
             const sid = req.body.staffId;
 
