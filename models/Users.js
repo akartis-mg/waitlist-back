@@ -70,7 +70,7 @@ UserSchema.methods.getSignedToken = function () {
       email: this.email,
     },
     process.env.JWT_SECRET,
-    { expiresIn: 360000 });
+  );
 };
 
 UserSchema.methods.getResetPasswordToken = function () {
