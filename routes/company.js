@@ -1,17 +1,17 @@
 const express = require('express');
 
-const  auth  = require('../middleware/auth');
+const auth = require('../middleware/auth');
 
 const { check, validationResult } = require('express-validator');
 
-const { createCompany, getOneCompany , getCompany , updateCompany, deleteCompany } = require("../controller/company.js");
+const { createCompany, getOneCompany, getCompany, updateCompany, deleteCompany } = require("../controller/company.js");
 
 const router = express.Router();
 
-router.route("/newCompany").post( auth ,  createCompany);
-router.route("/findOneCompany").get( auth, getOneCompany);
-router.route("/findAllCompany").get( auth , getCompany);
-router.route("/updateCompany").put( auth , updateCompany);
-router.route("/deleteCompany").delete( auth , deleteCompany);
+router.route("/newCompany").post(auth, createCompany);
+router.route("/findOneCompany").get(auth, getOneCompany);
+router.route("/findAllCompany").get(getCompany);
+router.route("/updateCompany").put(auth, updateCompany);
+router.route("/deleteCompany").delete(auth, deleteCompany);
 
 module.exports = router;
