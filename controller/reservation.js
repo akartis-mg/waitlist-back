@@ -88,7 +88,7 @@ exports.updateReservation = async (req, res, next) => {
             return next(new ErrorResponse("Reservation cannot be updated", 404));
         }
 
-        // waiting - confirm - inprogress - done 
+        // waiting - confirm - inprogress - done - desable 
         const branch = await Branch.findOne({ _id: bid });
 
          if(req.body.status == "waiting"){
@@ -101,10 +101,11 @@ exports.updateReservation = async (req, res, next) => {
 
             if(reservation.status =="waiting" ){
 
+                reservation.nb_spots = req.body.nb_spots
                 branch.spots.available = branch.spots.available - reservation.nb_spots;
                 branch.spots.not_available = branc.spots.not_available + reservation.nb_spots;
              
-                reservation.nb_spots = req.body.nb_spots;
+                ;
             }
 
             else {
@@ -122,7 +123,7 @@ exports.updateReservation = async (req, res, next) => {
 
         }
 
-        else if(req.body.status == "Done" ){
+        else if(req.body.status == "Done" || req.body.status == "Desable" ){
              //initialise
              branch.spots.available = branch.spots.available + reservation.nb_spots;
              branch.spots.not_available = branc.spots.not_available - reservation.nb_spots;
@@ -179,8 +180,8 @@ exports.deleteReservation = async (req, res, next) => {
 
         const branch = await Branch.findOne({ _id: bid });
         //initialise
-        branch.spots.available = branch.spots.available + reservation.nb_spots;
-        branch.spots.not_available = branc.spots.not_available - reservation.nb_spots;
+        //branch.spots.available = branch.spots.available + reservation.nb_spots;
+        //branch.spots.not_available = branc.spots.not_available - reservation.nb_spots;
 
         for (let x in branch.reservations) {
             if (branch.reservations[x] == rid) {

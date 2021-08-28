@@ -12,7 +12,6 @@ exports.createBranch = async (req, res, next) => {
 
         const savedbranch = await branch.save();
 
-
         const company = await Company.findOne({ _id: cid })
         company.branchs.push(savedbranch);
         await company.save();
