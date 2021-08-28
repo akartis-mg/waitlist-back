@@ -10,7 +10,7 @@ const auth = require("../middleware/auth");
 
 const router = express.Router();
 
-router.route("/findOneTypeCompany").get( auth , findOneTypeCompany);
-router.route("/findAllTypeCompany").get(auth , findAllTypeCompany);
+router.route("/findOneTypeCompany").get(auth, findOneTypeCompany);
+router.route("/findAllTypeCompany").get(findAllTypeCompany);
 
 module.exports = router;
