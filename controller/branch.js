@@ -9,6 +9,7 @@ exports.createBranch = async (req, res, next) => {
     const branch = new Branch(req.body.branch);
 
     try {
+
         const savedbranch = await branch.save();
 
         const company = await Company.findOne({ _id: cid })
@@ -16,7 +17,10 @@ exports.createBranch = async (req, res, next) => {
         await company.save();
 
         res.status(200).json(savedbranch);
-    } catch (error) {
+
+    } 
+    
+    catch (error) {
         next(error);
     }
 
@@ -52,11 +56,8 @@ exports.getBranch = async (req, res, next) => {
 
             const sid = req.body.staffId;
 
-
-
             //  const staff = await Staff.find({ _id : sid });
             //  const cid = req.body.cid ;
-
             // const branch = await Branch.find({ cid : cid });
 
             const branch = await Branch.find({ staffs: sid, isActive: true });
