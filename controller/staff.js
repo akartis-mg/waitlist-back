@@ -6,7 +6,7 @@ const Staff = require('../models/Staff');
 exports.createStaff = async (req, res, next) => {
 
     const bid = [req.body.bid];
-    const staff = new Staff(req.body.manager);
+    const staff = new Staff(req.body);
 
     try {
         const savedstaff = await staff.save();

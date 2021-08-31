@@ -102,10 +102,17 @@ exports.updateReservation = async (req, res, next) => {
             if(reservation.status =="waiting" ){
 
                 reservation.nb_spots = req.body.nb_spots
-                branch.spots.available = branch.spots.available - reservation.nb_spots;
+
+                
+                 for (let x in branch.info.opening_days) {
+                    if (branch.info.opening_days[x].open) {
+                        //branch.info.opening_days[x].hour_interval[0] = req.body.branch.info.opening_days[x].hour_interval[0];
+                        branch.info.opening_days[x].hour_interval.push(req.body.branch.info.opening_days[x].hour_interval[0]);
+                    }
+                }
                 branch.spots.not_available = branc.spots.not_available + reservation.nb_spots;
              
-                ;
+            
             }
 
             else {

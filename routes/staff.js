@@ -4,7 +4,7 @@ const { createStaff ,  getOneStaff , getStaff , updateStaff , deleteStaff } = re
 const router = express.Router();
 const  auth  = require('../middleware/auth');
 
-router.route("/newStaff").post( auth , createStaff);
+router.route("/newStaff").post(  createStaff);
 router.route("/findOneStaff").get( auth , getOneStaff);
 router.route("/findAllStaff").get( auth , getStaff);
 router.route("/updateStaff").put(auth ,  updateStaff);
