@@ -8,7 +8,7 @@ const DateresaSchema = new mongoose.Schema(
           ref: 'Branch'
       }
       ,
-      jour: { type : String },
+      date : { type : String },
       info:[]
 
     },
