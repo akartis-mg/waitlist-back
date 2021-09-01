@@ -14,10 +14,15 @@ exports.createReservation = async (req, res, next) => {
 
     try {
         const savedreservation = await reservation.save();
+
         const dateresa = new Dateresa();
 
         dateresa.date = req.body.date_reservation;
         dateresa.bid = req.body.bid;
+        dateresa.info.push({ 
+            date :  req.body.date_reservation
+         })    
+
 
         const saveddateresa = await dateresa.save();
 
