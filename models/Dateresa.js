@@ -3,7 +3,6 @@ const mongoose = require("mongoose");
 const DateresaSchema = new mongoose.Schema(
     {
       bid: { type: String },
-      date : { type : String },
       info:[]
 
     },

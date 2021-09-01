@@ -21,9 +21,11 @@ exports.createReservation = async (req, res, next) => {
         dateresa.bid = req.body.bid;
         dateresa.info.push({ 
             date :  req.body.date_reservation,
-            hours : req.body.time,
-            seats : req.body.nb_spots
-         })    
+            interval: [{
+                        hours : req.body.time,
+                        seats : req.body.nb_spots
+            }]
+         })   
 
 
         const saveddateresa = await dateresa.save();
