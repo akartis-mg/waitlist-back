@@ -3,7 +3,7 @@ const TypeCompany = require('../models/TypeCompany');
 const Branch  = require('../models/Branch');
 const Reservation  = require('../models/Reservation');
 const User  = require('../models/Users');
-const DateResa  = require('../models/Dateresa');
+const Dateresa  = require('../models/Dateresa');
 
 
 exports.createReservation = async (req, res, next) => {
@@ -14,8 +14,7 @@ exports.createReservation = async (req, res, next) => {
 
     try {
         const savedreservation = await reservation.save();
-
-        const dateresa = new DateResa();
+        const dateresa = new Dateresa();
 
         dateresa.date = req.body.date_reservation;
         dateresa.bid = req.body.bid;
