@@ -14,7 +14,7 @@ exports.createDateresa = async (req, res, next) => {
         const saveddateresa = await dateresa.save();
 
         const branch = await Branch.findOne({ _id: bid });
-        branch.reservations.push(savedreservation);
+        branch.reservations.push(saveddateresa);
         await branch.save();
 
         res.status(200).json(saveddateresa);
