@@ -20,7 +20,9 @@ exports.createReservation = async (req, res, next) => {
         dateresa.date = req.body.date_reservation;
         dateresa.bid = req.body.bid;
         dateresa.info.push({ 
-            date :  req.body.date_reservation
+            date :  req.body.date_reservation,
+            hours : req.body.time,
+            seats : req.body.nb_spots
          })    
 
 
