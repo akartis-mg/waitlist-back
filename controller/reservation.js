@@ -7,22 +7,17 @@ const User  = require('../models/Users');
 
 exports.createReservation = async (req, res, next) => {
     
-    const bid = req.body.bid;
+    //const bid = req.body.bid;
     //const uid = req.body.uid;
     const reservation = new Reservation(req.body);
 
     try {
         const savedreservation = await reservation.save();
 
-        const branch = await Branch.findOne({ _id: bid });
-        const user = await User.findOne({ _id: uid });
-
-
-       
-
-
-        branch.reservations.push(savedreservation);
-        await branch.save();
+        // const branch = await Branch.findOne({ _id: bid });
+        // const user = await User.findOne({ _id: uid });
+        // branch.reservations.push(savedreservation);
+        // await branch.save();
 
         res.status(200).json(savedreservation);
     } catch (error) {

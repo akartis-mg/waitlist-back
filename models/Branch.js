@@ -81,10 +81,10 @@ const BranchSchema = new mongoose.Schema(
       },
     ],
 
-    reservations: [
+    dateresa: [
       {
         type: mongoose.Schema.Types.ObjectId,
-        ref: "Reservation",
+        ref: "Dateresa",
       },
     ],
   },
