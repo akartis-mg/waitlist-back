@@ -4,13 +4,11 @@ const ReservationSchema = new mongoose.Schema(
     {
       bid: 
       {
-          type: mongoose.Schema.Types.ObjectId,
-          ref: 'Branch'
+          type: String
       },
       uid: 
       {
-          type: mongoose.Schema.Types.ObjectId,
-          ref: 'Users'
+          type: String 
       }
       ,
         status : { type : String , default: "waiting" },

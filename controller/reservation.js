@@ -3,6 +3,7 @@ const TypeCompany = require('../models/TypeCompany');
 const Branch  = require('../models/Branch');
 const Reservation  = require('../models/Reservation');
 const User  = require('../models/Users');
+const DateResa  = require('../models/Dateresa');
 
 
 exports.createReservation = async (req, res, next) => {
@@ -14,10 +15,16 @@ exports.createReservation = async (req, res, next) => {
     try {
         const savedreservation = await reservation.save();
 
-        // const branch = await Branch.findOne({ _id: bid });
-        // const user = await User.findOne({ _id: uid });
-        // branch.reservations.push(savedreservation);
-        // await branch.save();
+        const dateresa = new DateResa();
+
+        dateresa.date = req.body.date_reservation;
+        dateresa.bid = req.body.bid;
+
+        const saveddateresa = await dateresa.save();
+
+        const branch = await Branch.findOne({ _id: req.body.bid });
+        branch.dateresa.push(saveddateresa);
+        await branch.save();
 
         res.status(200).json(savedreservation);
     } catch (error) {
