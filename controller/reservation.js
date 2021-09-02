@@ -45,7 +45,7 @@ exports.createReservation = async (req, res, next) => {
 
 exports.getOneReservation = async (req, res, next) => {
 
-    const rid = req.body.reservationId;
+    const rid = req.body.rid;
 
     try {
         const reservation = await Reservation.findOne({ _id: rid })
