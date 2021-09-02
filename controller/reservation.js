@@ -22,7 +22,9 @@ exports.createReservation = async (req, res, next) => {
             interval: [{
                 hours: req.body.time,
                 seats: req.body.nb_spots,
-                id_resa: savedreservation._id
+                id_resa: [
+                    savedreservation._id
+                ]
             }]
         })
 
