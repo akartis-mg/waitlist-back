@@ -18,7 +18,7 @@ app.use('/api/company', require('./routes/company'));
 app.use('/api/branch', require('./routes/branch'));
 app.use('/api/reservation', require('./routes/reservation'));
 app.use('/api/staff', require('./routes/staff'));
-//app.use('/api/dateresa', require('./routes/dateresa'));
+app.use('/api/dateresa', require('./routes/dateresa'));
 
 app.get('/', (req, res) => res.json({ msg: 'Welcome to the Waitlist.....' }));
 
