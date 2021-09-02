@@ -4,21 +4,15 @@ const Reservation = require('../models/Reservation');
 const Dateresa = require('../models/Dateresa');
 
 
-exports.createDateresa = async (req, res, next) => {
+exports.getDateresa = async (req, res, next) => {
 
-    const bid = req.body.bid;
-    const dateresa = new Branch(req.body.dateresa);
-    dateresa.bid=bid;
-   
+    const bid = req.body.branchId;
+
     try {
-        const saveddateresa = await dateresa.save();
-        const branch = await Branch.findOne({ _id: bid });
-        branch.reservations.push(saveddateresa);
-        await branch.save();
-        res.status(200).json(saveddateresa);
-    }
-
-    catch (error) {
+        const dateresa = await Dateresa.find({ bid: bid })
+        res.status(200).json(dateresa);
+    } catch (error) {
         next(error);
     }
+
 }
