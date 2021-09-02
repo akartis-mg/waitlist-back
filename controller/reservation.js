@@ -14,8 +14,7 @@ exports.createReservation = async (req, res, next) => {
 
     try {
 
-
-        // const savedreservation = await reservation.save();
+        const savedreservation = await reservation.save();
         const dateresa = new Dateresa();
         dateresa.bid = req.body.bid;
         dateresa.info.push({
@@ -23,9 +22,7 @@ exports.createReservation = async (req, res, next) => {
             interval: [{
                 hours: req.body.time,
                 seats: req.body.nb_spots,
-                resa: [
-                    reservation
-                ]
+                id_resa: savedreservation._id
             }]
         })
 
@@ -36,7 +33,7 @@ exports.createReservation = async (req, res, next) => {
         branch.dateresa.push(saveddateresa);
         await branch.save();
 
-        res.status(200).json(saveddateresa);
+        res.status(200).json(savedreservation);
     } catch (error) {
         next(error);
     }
