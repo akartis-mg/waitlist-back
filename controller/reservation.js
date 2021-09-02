@@ -1,13 +1,13 @@
 const Company = require('../models/Company');
 const TypeCompany = require('../models/TypeCompany');
-const Branch  = require('../models/Branch');
-const Reservation  = require('../models/Reservation');
-const User  = require('../models/Users');
-const Dateresa  = require('../models/Dateresa');
+const Branch = require('../models/Branch');
+const Reservation = require('../models/Reservation');
+const User = require('../models/Users');
+const Dateresa = require('../models/Dateresa');
 
 
 exports.createReservation = async (req, res, next) => {
-    
+
     //const bid = req.body.bid;
     //const uid = req.body.uid;
     const reservation = new Reservation(req.body);
@@ -15,19 +15,19 @@ exports.createReservation = async (req, res, next) => {
     try {
 
 
-       // const savedreservation = await reservation.save();
+        // const savedreservation = await reservation.save();
         const dateresa = new Dateresa();
         dateresa.bid = req.body.bid;
-        dateresa.info.push({ 
-            date :  req.body.date_reservation,
+        dateresa.info.push({
+            date: req.body.date_reservation,
             interval: [{
-                        hours : req.body.time,
-                        seats : req.body.nb_spots,
-                        resa : [
-                             reservation
-                        ]
+                hours: req.body.time,
+                seats: req.body.nb_spots,
+                resa: [
+                    reservation
+                ]
             }]
-         })   
+        })
 
 
         const saveddateresa = await dateresa.save();
@@ -36,7 +36,7 @@ exports.createReservation = async (req, res, next) => {
         branch.dateresa.push(saveddateresa);
         await branch.save();
 
-        res.status(200).json(savedreservation);
+        res.status(200).json(saveddateresa);
     } catch (error) {
         next(error);
     }
@@ -46,7 +46,7 @@ exports.createReservation = async (req, res, next) => {
 
 exports.getOneReservation = async (req, res, next) => {
 
-    const rid = req.body.reservationId ;
+    const rid = req.body.reservationId;
 
     try {
         const reservation = await Reservation.findOne({ _id: rid })
@@ -60,28 +60,28 @@ exports.getOneReservation = async (req, res, next) => {
 
 exports.getReservation = async (req, res, next) => {
 
-    const type = req.body.type ;
+    const type = req.body.type;
 
     try {
 
-        if( type === "Customer") {
-            const uid = req.body.uid ;
-            const reservation = await Reservation.find({  uid : uid }  );
+        if (type === "Customer") {
+            const uid = req.body.uid;
+            const reservation = await Reservation.find({ uid: uid });
 
             res.status(200).json(reservation);
 
         }
 
-        else{
-            const bid = req.body.bid ;
-            
-            const reservation = await Reservation.find({ bid : bid  });
+        else {
+            const bid = req.body.bid;
+
+            const reservation = await Reservation.find({ bid: bid });
 
             res.status(200).json(reservation);
         }
 
 
-        
+
 
     } catch (error) {
         next(error);
@@ -103,28 +103,28 @@ exports.updateReservation = async (req, res, next) => {
         // waiting - confirm - inprogress - done - desable 
         const branch = await Branch.findOne({ _id: bid });
 
-         if(req.body.status == "waiting"){
+        if (req.body.status == "waiting") {
 
             reservation.nb_spots = req.body.nb_spots;
 
-         }
+        }
 
-        else if(req.body.status == "confirm" ){
+        else if (req.body.status == "confirm") {
 
-            if(reservation.status =="waiting" ){
+            if (reservation.status == "waiting") {
 
                 reservation.nb_spots = req.body.nb_spots
 
-                
-                 for (let x in branch.info.opening_days) {
+
+                for (let x in branch.info.opening_days) {
                     if (branch.info.opening_days[x].open) {
                         //branch.info.opening_days[x].hour_interval[0] = req.body.branch.info.opening_days[x].hour_interval[0];
                         branch.info.opening_days[x].hour_interval.push(req.body.branch.info.opening_days[x].hour_interval[0]);
                     }
                 }
                 branch.spots.not_available = branc.spots.not_available + reservation.nb_spots;
-             
-            
+
+
             }
 
             else {
@@ -132,7 +132,7 @@ exports.updateReservation = async (req, res, next) => {
                 //initialise
                 branch.spots.available = branch.spots.available + reservation.nb_spots;
                 branch.spots.not_available = branc.spots.not_available - reservation.nb_spots;
-    
+
                 //modify
                 branch.spots.available = branch.spots.available - req.body.nb_spots;
                 branch.spots.not_available = branc.spots.not_available + req.body.nb_spots;
@@ -142,15 +142,15 @@ exports.updateReservation = async (req, res, next) => {
 
         }
 
-        else if(req.body.status == "Done" || req.body.status == "Desable" ){
-             //initialise
-             branch.spots.available = branch.spots.available + reservation.nb_spots;
-             branch.spots.not_available = branc.spots.not_available - reservation.nb_spots;
+        else if (req.body.status == "Done" || req.body.status == "Desable") {
+            //initialise
+            branch.spots.available = branch.spots.available + reservation.nb_spots;
+            branch.spots.not_available = branc.spots.not_available - reservation.nb_spots;
 
-             reservation.nb_spots = req.body.nb_spots;
+            reservation.nb_spots = req.body.nb_spots;
         }
 
-        else{
+        else {
 
             //initialise
             //branch.spots.available = branch.spots.available + reservation.nb_spots;
@@ -160,19 +160,19 @@ exports.updateReservation = async (req, res, next) => {
             //branch.spots.available = branch.spots.available - req.body.nb_spots;
             //branch.spots.not_available = branc.spots.not_available + req.body.nb_spots;
         }
-      
+
         await branch.save();
 
         reservation.status = req.body.status;
         reservation.name = req.body.name;
         reservation.date_reservation = req.body.date_reservation;
         reservation.time = req.body.time;
-        
+
 
         const updatedReservation = await reservation.save();
 
-       // branch.spots.available = branch.spots.available - savedreservation.nb_spots;
-       // branch.spots.not_available = branc.spots.not_available + savedreservation.nb_spots;
+        // branch.spots.available = branch.spots.available - savedreservation.nb_spots;
+        // branch.spots.not_available = branc.spots.not_available + savedreservation.nb_spots;
 
         res.status(200).json(updatedReservation);
 
