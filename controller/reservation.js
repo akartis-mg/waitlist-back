@@ -64,113 +64,113 @@ exports.createReservation = async (req, res, next) => {
               }
 
 
-              const x = 0;  
-              const check = false;
+        //       const x = 0;  
+        //       const check = false;
 
-               dateresa.info =  dateresa.info.map( i =>{
+        //        dateresa.info =  dateresa.info.map( i =>{
 
-                x++;
+        //         x++;
                       
                    
-                        if(i.date == req.body.date_reservation ){
-                            check = true;
+        //                 if(i.date == req.body.date_reservation ){
+        //                     check = true;
 
-                            const checkInterv = false;
-                            const y = 0;
+        //                     const checkInterv = false;
+        //                     const y = 0;
                             
-                            const value = {
-                                ...i,
-                                interval : [
+        //                     const value = {
+        //                         ...i,
+        //                         interval : [
                                      
-                                    ...i.interval.map(interv => {
-                                        y++;
-                                        if(interv.hours == req.body.time ){
-                                            checkInterv = true;
-                                            const seats = interv.seats;
-                                            const nb_spots = seats + req.body.nb_spots;
-                                            interv.id_resa.push(savedreservation._id);
-                                            const id_resa = id_resa;
-                                            const intvalue = {
-                                                ...interv,
-                                                nb_spots,
-                                                id_resa
-                                            };
+        //                             ...i.interval.map(interv => {
+        //                                 y++;
+        //                                 if(interv.hours == req.body.time ){
+        //                                     checkInterv = true;
+        //                                     const seats = interv.seats;
+        //                                     const nb_spots = seats + req.body.nb_spots;
+        //                                     interv.id_resa.push(savedreservation._id);
+        //                                     const id_resa = id_resa;
+        //                                     const intvalue = {
+        //                                         ...interv,
+        //                                         nb_spots,
+        //                                         id_resa
+        //                                     };
 
-                                            return intvalue;
-                                        }
+        //                                     return intvalue;
+        //                                 }
 
-                                        else
-                                        {
+        //                                 else
+        //                                 {
                                             
-                                            // const nb_spots = req.body.nb_spots;
-                                            // interv.id_resa.push(savedreservation._id);
-                                            // const hours = req.body.time,
-                                            // const id_resa = id_resa;
-                                            // const intvalue = {
-                                            //     hours,
-                                            //     ...interv,
-                                            //     nb_spots,
-                                            //     id_resa
-                                            // };
-                                            // return intvalue;
+        //                                     // const nb_spots = req.body.nb_spots;
+        //                                     // interv.id_resa.push(savedreservation._id);
+        //                                     // const hours = req.body.time,
+        //                                     // const id_resa = id_resa;
+        //                                     // const intvalue = {
+        //                                     //     hours,
+        //                                     //     ...interv,
+        //                                     //     nb_spots,
+        //                                     //     id_resa
+        //                                     // };
+        //                                     // return intvalue;
 
-                                            return interv
-
-
-                                        }
-                                    })
-
-                                ]
-                            }  
-
-                            if( !checkInterv ){
-                                value.interval.push([{
-                                    hours: req.body.time,
-                                    seats: req.body.nb_spots,
-                                    id_resa: [
-                                        savedreservation._id
-                                    ]
-                                }])
-                            }
-
-                           
-
-                            return value;
+        //                                     return interv
 
 
-                        }
+        //                                 }
+        //                             })
 
-                        else{
+        //                         ]
+        //                     }  
+
+        //                     if( !checkInterv ){
+        //                         value.interval.push([{
+        //                             hours: req.body.time,
+        //                             seats: req.body.nb_spots,
+        //                             id_resa: [
+        //                                 savedreservation._id
+        //                             ]
+        //                         }])
+        //                     }
 
                            
 
-                            return  i  ; 
+        //                     return value;
+
+
+        //                 }
+
+        //                 else{
+
+                           
+
+        //                     return  i  ; 
 
                            
                     
-                    }
+        //             }
 
                     
                    
 
-              })
+        //       })
 
 
-              if(!check ){
+        //       if(!check ){
                 
-                dateresa.info.push({
-                    date: req.body.date_reservation,
-                    interval: [{
-                        hours: req.body.time,
-                        seats: req.body.nb_spots,
-                        id_resa: [
-                            savedreservation._id
-                        ]
-                    }]
-                })
+        //         dateresa.info.push({
+        //             date: req.body.date_reservation,
+        //             interval: [{
+        //                 hours: req.body.time,
+        //                 seats: req.body.nb_spots,
+        //                 id_resa: [
+        //                     savedreservation._id
+        //                 ]
+        //             }]
+        //         })
 
                
-          }
+        //   }
 
 
 
@@ -195,10 +195,7 @@ exports.createReservation = async (req, res, next) => {
         }
 
         
-
-
         const saveddateresa = await newdateresa.save();
-
         const branch = await Branch.findOne({ _id: req.body.bid });
         branch.dateresa.push(saveddateresa);
         await branch.save();
