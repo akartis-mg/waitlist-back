@@ -6,7 +6,7 @@ const Dateresa = require('../models/Dateresa');
 
 exports.getDateresa = async (req, res, next) => {
 
-    const bid = req.body.branchId;
+    const bid = req.params.bid;
 
     try {
         const dateresa = await Dateresa.find({ bid: bid })
