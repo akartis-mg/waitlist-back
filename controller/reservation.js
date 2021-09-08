@@ -27,7 +27,7 @@ exports.createReservation = async (req, res, next) => {
                   if  (dateresa.info[i].date == req.body.date_reservation){
 
                         check = true ;
-                        const  checkinterv = false ;
+                        const checkinterv = false ;
                         
 
                         for( j = 0 ; j < dateresa.info[i].interval.length ; j++ ){
@@ -42,7 +42,7 @@ exports.createReservation = async (req, res, next) => {
 
                         }
 
-                        if( checkinterv == true ){
+                        if( checkinterv == false ){
                             dateresa.info[i].interval.push({
                                 hours: req.body.time,
                                 seats: req.body.nb_spots,
@@ -58,7 +58,7 @@ exports.createReservation = async (req, res, next) => {
               }
 
               
-              if( check == true  ){
+              if( check == false  ){
                 dateresa.info.push({
                     date: req.body.date_reservation,
                     interval: [{
@@ -72,11 +72,12 @@ exports.createReservation = async (req, res, next) => {
 
               }
 
-               const dateresaIndex = dateresa.info.findIndex(
-                ( i ) => i.date === req.body.date_reservation
-                );
+            const saveddateresa = await dateresa.save();
+            res.status(200).json(saveddateresa);      
 
-                
+            //    const dateresaIndex = dateresa.info.findIndex(
+            //     ( i ) => i.date === req.body.date_reservation
+            //     );
                 // if( dateresaIndex > 0 ){
 
                 //             dateresa.info =  dateresa.info.map( i =>{
@@ -142,8 +143,7 @@ exports.createReservation = async (req, res, next) => {
                
             
 
-        const saveddateresa = await dateresa.save();
-        res.status(200).json(saveddateresa);      
+        
 
 
         }
