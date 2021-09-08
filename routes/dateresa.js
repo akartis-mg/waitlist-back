@@ -6,6 +6,6 @@ const auth = require('../middleware/auth');
 
 
 router.route("/findDateresa/:bid").get(auth, getDateresa);
-router.route("/updateDateresa").put(auth, updateDateresa);
+//router.route("/updateDateresa").put(auth, updateDateresa);
 
 module.exports = router;
