@@ -14,36 +14,108 @@ exports.createReservation = async (req, res, next) => {
 
     try {
 
-        const dateresa = Dateresa.findOne({ bid : req.body.bid });
+        const dateresa = await Dateresa.findOne({ bid: req.body.bid });
 
         const savedreservation = await reservation.save();
 
-        if (dateresa != null ){
+        if (dateresa != null) {
 
-              const check = false ;
+            /*let check = false;
 
-              for( i = 0 ; i < dateresa.info.length ; i++ ){
+            for (i = 0; i < dateresa.info.length; i++) {
 
-                  if  (dateresa.info[i].date == req.body.date_reservation){
+                if (dateresa.info[i].date == req.body.date_reservation) {
+                    console.log("SAME DATE");
 
-                        check = true ;
-                        const checkinterv = false ;
-                        
+                    check = true;
+                    let checkinterv = false;
 
-                        for( j = 0 ; j < dateresa.info[i].interval.length ; j++ ){
 
-                                if( dateresa.info[i].interval[j].hours == req.body.time ){
+                    for (j = 0; j < dateresa.info[i].interval.length; j++) {
 
-                                     checkinterv = true;
-                                     dateresa.info[i].interval[j].seats = dateresa.info[i].interval[j].seats + req.body.nb_spots
-                                     dateresa.info[i].interval[j].id_resa.push(savedreservation._id);    
-   
-                                }
+                        if (dateresa.info[i].interval[j].hours == req.body.time) {
+
+                            checkinterv = true;
+                            dateresa.info[i].interval[j].seats = dateresa.info[i].interval[j].seats + req.body.nb_spots
+                            dateresa.info[i].interval[j].id_resa.push(savedreservation._id);
 
                         }
 
-                        if( checkinterv == false ){
-                            dateresa.info[i].interval.push({
+                    }
+
+                    if (checkinterv == false) {
+                        console.log("INTERVAL");
+                        dateresa.info[i].interval.push({
+                            hours: req.body.time,
+                            seats: req.body.nb_spots,
+                            id_resa: [
+                                savedreservation._id
+                            ]
+                        })
+                        await dateresa.save();
+
+                        console.log("TEST: ", dateresa.info[i]);
+                    }
+                }
+
+            }
+
+
+            if (check == false) {
+                dateresa.info.push({
+                    date: req.body.date_reservation,
+                    interval: [{
+                        hours: req.body.time,
+                        seats: req.body.nb_spots,
+                        id_resa: [
+                            savedreservation._id
+                        ]
+                    }]
+                })
+            }
+
+            console.log("TEST 2: ", dateresa.info[1].interval);
+
+            const saveddateresa = await dateresa.save();
+            res.status(200).json(saveddateresa);
+
+            console.log("TEST 3: ", saveddateresa.info[1].interval)*/
+
+            const dateresaIndex = dateresa.info.findIndex(
+                (i) => i.date === req.body.date_reservation
+            );
+            if (dateresaIndex > 0) {
+
+                dateresa.info = dateresa.info.map(i => {
+                    if (i.date == req.body.date_reservation) {
+                        //check = true;
+                        let checkInterv = false;
+                        const y = 0;
+                        const value = {
+                            ...i,
+                            interval: [
+                                ...i.interval.map(interv => {
+                                    if (interv.hours == req.body.time) {
+                                        checkInterv = true;
+                                        const seats = interv.seats;
+                                        const nb_spots = seats + req.body.nb_spots;
+                                        interv.id_resa.push(savedreservation._id);
+                                        const id_resa = interv.id_resa;
+                                        const intvalue = {
+                                            ...interv,
+                                            seats: nb_spots,
+                                            id_resa
+                                        };
+                                        return intvalue;
+                                    }
+                                    else {
+                                        return interv
+                                    }
+                                })
+                            ]
+                        }
+                        if (!checkInterv) {
+                            value.interval.push({
                                 hours: req.body.time,
                                 seats: req.body.nb_spots,
                                 id_resa: [
@@ -51,14 +123,16 @@ exports.createReservation = async (req, res, next) => {
                                 ]
                             })
                         }
+                        return value;
+                    }
+                    else {
+                        return i;
+                    }
+                })
 
+            }
+            else {
 
-                  }
-                
-              }
-
-              
-              if( check == false  ){
                 dateresa.info.push({
                     date: req.body.date_reservation,
                     interval: [{
@@ -70,86 +144,13 @@ exports.createReservation = async (req, res, next) => {
                     }]
                 })
 
-              }
-
-            const saveddateresa = await dateresa.save();
-            res.status(200).json(saveddateresa);      
-
-            //    const dateresaIndex = dateresa.info.findIndex(
-            //     ( i ) => i.date === req.body.date_reservation
-            //     );
-                // if( dateresaIndex > 0 ){
-
-                //             dateresa.info =  dateresa.info.map( i =>{
-                //                 if(i.date == req.body.date_reservation ){
-                //                     check = true;
-                //                     const checkInterv = false;
-                //                     const y = 0;               
-                //                     const value = {
-                //                         ...i,
-                //                         interval : [
-                //                             ...i.interval.map(interv => {
-                //                                 if(interv.hours == req.body.time ){
-                //                                     checkInterv = true;
-                //                                     const seats = interv.seats;
-                //                                     const nb_spots = seats + req.body.nb_spots;
-                //                                     interv.id_resa.push(savedreservation._id);
-                //                                     const id_resa = id_resa;
-                //                                     const intvalue = {
-                //                                         ...interv,
-                //                                         nb_spots,
-                //                                         id_resa
-                //                                     };
-                //                                     return intvalue;
-                //                                 }
-                //                                 else
-                //                                 {
-                //                                     return interv
-                //                                 }
-                //                             })
-                //                         ]
-                //                     }  
-                //                     if( !checkInterv ){
-                //                         value.interval.push({
-                //                             hours: req.body.time,
-                //                             seats: req.body.nb_spots,
-                //                             id_resa: [
-                //                                 savedreservation._id
-                //                             ]
-                //                         })
-                //                     }
-                //                     return value;
-                //                 }
-                //                 else{
-                //                     return  i  ; 
-                //             }
-                //     })
-
-                // }
-                // else{
-
-                //     dateresa.info.push({
-                //         date: req.body.date_reservation,
-                //         interval: [{
-                //             hours: req.body.time,
-                //             seats: req.body.nb_spots,
-                //             id_resa: [
-                //                 savedreservation._id
-                //             ]
-                //         }]
-                //     })
-
-                // }
-               
-            
-
-        
-
-
+            }
+            const savedreservation2 = await dateresa.save();
+            res.status(200).json(savedreservation2);
         }
 
-        else{
-            
+        else {
+
             const newdateresa = new Dateresa();
             newdateresa.bid = req.body.bid;
             newdateresa.info.push({
@@ -168,14 +169,7 @@ exports.createReservation = async (req, res, next) => {
             branch.dateresa.push(saveddateresa);
             await branch.save();
             res.status(200).json(savedreservation);
-
-
         }
-
-        
-        
-
-
     } catch (error) {
         next(error);
     }
@@ -185,7 +179,7 @@ exports.createReservation = async (req, res, next) => {
 
 exports.getOneReservation = async (req, res, next) => {
 
-    const rid = req.body.rid;
+    const rid = req.params.rid;
 
     try {
         const reservation = await Reservation.findOne({ _id: rid })
