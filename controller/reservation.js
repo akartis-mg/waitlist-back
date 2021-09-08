@@ -177,12 +177,12 @@ exports.createReservation = async (req, res, next) => {
 }
 
 
-exports.getOneReservation = async (req, res, next) => {
+exports.getReservationByBranchId = async (req, res, next) => {
 
-    const rid = req.params.rid;
+    const bid = req.params.bid;
 
     try {
-        const reservation = await Reservation.findOne({ _id: rid })
+        const reservation = await Reservation.find({ bid })
         res.status(200).json(reservation);
     } catch (error) {
         next(error);
