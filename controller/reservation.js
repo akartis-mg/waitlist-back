@@ -14,15 +14,15 @@ exports.createReservation = async (req, res, next) => {
 
     try {
 
-        const dataresa = Dateresa.findOne({ bid : req.body.bid });
+        const dateresa = Dateresa.findOne({ bid : req.body.bid });
 
         const savedreservation = await reservation.save();
 
-        if (dataresa != null ){
+        if (dateresa != null ){
 
               const check = false ;
 
-              for( i = 0 ; i < dataresa.info.length ; i++ ){
+              for( i = 0 ; i < dateresa.info.length ; i++ ){
 
                   if  (dateresa.info[i].date == req.body.date_reservation){
 
@@ -130,6 +130,8 @@ exports.createReservation = async (req, res, next) => {
         //         })
         //   }
 
+        const saveddateresa = await dateresa.save();
+        res.status(200).json(saveddateresa);      
 
 
         }
@@ -148,15 +150,20 @@ exports.createReservation = async (req, res, next) => {
                     ]
                 }]
             })
+
+            const saveddateresa = await newdateresa.save();
+            const branch = await Branch.findOne({ _id: req.body.bid });
+            branch.dateresa.push(saveddateresa);
+            await branch.save();
+            res.status(200).json(savedreservation);
+
+
         }
 
         
-        const saveddateresa = await newdateresa.save();
-        const branch = await Branch.findOne({ _id: req.body.bid });
-        branch.dateresa.push(saveddateresa);
-        await branch.save();
+        
 
-        res.status(200).json(savedreservation);
+
     } catch (error) {
         next(error);
     }
