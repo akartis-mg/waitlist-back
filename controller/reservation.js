@@ -289,6 +289,9 @@ exports.updateReservation = async (req, res, next) => {
         })
 
 
+    
+        if(req.body.status != "done" ){
+
         //update
         const dateresaIndex = dateresa.info.findIndex(
             (i) => i.date === req.body.date_reservation
@@ -354,6 +357,9 @@ exports.updateReservation = async (req, res, next) => {
             })
 
         }
+
+        }
+
 
         await dateresa.save()
 
