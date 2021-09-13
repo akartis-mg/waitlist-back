@@ -4,6 +4,7 @@ const Branch = require('../models/Branch');
 const Reservation = require('../models/Reservation');
 const User = require('../models/Users');
 const Dateresa = require('../models/Dateresa');
+const ErrorResponse = require('../utils/errorResponse');
 
 
 exports.createReservation = async (req, res, next) => {
@@ -226,7 +227,7 @@ exports.getReservation = async (req, res, next) => {
 
 // Update a todo
 exports.updateReservation = async (req, res, next) => {
-    const rid = req.body.rid;
+    const rid = req.body._id;
     const bid = req.body.bid;
     try {
         const reservation = await Reservation.findOne({ _id: rid });
@@ -259,11 +260,11 @@ exports.updateReservation = async (req, res, next) => {
                                     (i) => i === rid
                                 );
 
-                                if(idResaIndex != -1 ) {
+                                if (idResaIndex != -1) {
                                     seats = seats - req.body.nb_spots;
-                                    arr = interv.id_resa.filter(id  => id !== rid)
-                                } 
-                                else{
+                                    arr = interv.id_resa.filter(id => id !== rid)
+                                }
+                                else {
                                     arr = interv.id_resa;
                                 }
 
@@ -271,7 +272,7 @@ exports.updateReservation = async (req, res, next) => {
                                 const intvalue = {
                                     ...interv,
                                     seats,
-                                    id_resa : arr
+                                    id_resa: arr
                                 };
                                 return intvalue;
                             }
@@ -311,7 +312,7 @@ exports.updateReservation = async (req, res, next) => {
                                     checkInterv = true;
                                     const seats = interv.seats;
                                     const nb_spots = seats + req.body.nb_spots;
-                                    interv.id_resa.push(savedreservation._id);
+                                    interv.id_resa.push(reservation._id);
                                     const id_resa = interv.id_resa;
                                     const intvalue = {
                                         ...interv,
@@ -331,7 +332,7 @@ exports.updateReservation = async (req, res, next) => {
                             hours: req.body.time,
                             seats: req.body.nb_spots,
                             id_resa: [
-                                savedreservation._id
+                                reservation._id
                             ]
                         })
                     }
@@ -351,7 +352,7 @@ exports.updateReservation = async (req, res, next) => {
                     hours: req.body.time,
                     seats: req.body.nb_spots,
                     id_resa: [
-                        savedreservation._id
+                        reservation._id
                     ]
                 }]
             })
@@ -367,6 +368,7 @@ exports.updateReservation = async (req, res, next) => {
         reservation.name = req.body.name;
         reservation.date_reservation = req.body.date_reservation;
         reservation.time = req.body.time;
+        reservation.nb_spots = req.body.nb_spots;
 
         const updatedReservation = await reservation.save();
 
