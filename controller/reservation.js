@@ -291,7 +291,7 @@ exports.updateReservation = async (req, res, next) => {
 
 
     
-        if(req.body.status != "done" ){
+        if(req.body.status != "done" || req.body.status !="desable"  ){
 
         //update
         const dateresaIndex = dateresa.info.findIndex(
