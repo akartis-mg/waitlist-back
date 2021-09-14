@@ -255,16 +255,21 @@ exports.updateReservation = async (req, res, next) => {
                             checkInterv = true;
                             let seats = interv.seats;
                             let arr = [];
+
                             const idResaIndex = interv.id_resa.findIndex(
-                                (i) => i == rid
+                                (i) => i == rid && (interv.hours == reservation.time)
                             );
 
                             if (idResaIndex != -1) {
                                 seats = seats - reservation.nb_spots;
-                                arr = interv.id_resa.filter(id => id !== rid)
+                                arr = interv.id_resa.filter((id) =>
+                                    id != rid
+                                )
+
                             }
                             else {
                                 arr = interv.id_resa;
+
                             }
 
 
