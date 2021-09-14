@@ -245,40 +245,39 @@ exports.updateReservation = async (req, res, next) => {
         //init 
         dateresa.info = dateresa.info.map(i => {
             if (i.date == req.body.date_reservation) {
-                //check = true;
                 let checkInterv = false;
                 const y = 0;
                 const value = {
                     ...i,
                     interval: [
                         ...i.interval.map(interv => {
-                            if (interv.hours == req.body.time) {
-                                checkInterv = true;
-                                let seats = interv.seats;
-                                let arr = [];
-                                const idResaIndex = interv.id_resa.findIndex(
-                                    (i) => i === rid
-                                );
+                            //if (interv.hours == req.body.time) {
+                            checkInterv = true;
+                            let seats = interv.seats;
+                            let arr = [];
+                            const idResaIndex = interv.id_resa.findIndex(
+                                (i) => i == rid
+                            );
 
-                                if (idResaIndex != -1) {
-                                    seats = seats - req.body.nb_spots;
-                                    arr = interv.id_resa.filter(id => id !== rid)
-                                }
-                                else {
-                                    arr = interv.id_resa;
-                                }
-
-
-                                const intvalue = {
-                                    ...interv,
-                                    seats,
-                                    id_resa: arr
-                                };
-                                return intvalue;
+                            if (idResaIndex != -1) {
+                                seats = seats - reservation.nb_spots;
+                                arr = interv.id_resa.filter(id => id !== rid)
                             }
                             else {
-                                return interv
+                                arr = interv.id_resa;
                             }
+
+
+                            const intvalue = {
+                                ...interv,
+                                seats,
+                                id_resa: arr
+                            };
+                            return intvalue;
+                            /*}
+                            else {
+                                return interv
+                            }*/
                         })
                     ]
                 }
@@ -290,74 +289,80 @@ exports.updateReservation = async (req, res, next) => {
         })
 
 
-    
-        if(req.body.status != "done" || req.body.status !="desable"  ){
+        let bool = false;
 
-        //update
-        const dateresaIndex = dateresa.info.findIndex(
-            (i) => i.date === req.body.date_reservation
-        );
-        if (dateresaIndex > 0) {
+        if (req.body.status == "disable" || req.body.status == "done") {
+            bool = true
+        }
 
-            dateresa.info = dateresa.info.map(i => {
-                if (i.date == req.body.date_reservation) {
-                    //check = true;
-                    let checkInterv = false;
-                    const y = 0;
-                    const value = {
-                        ...i,
-                        interval: [
-                            ...i.interval.map(interv => {
-                                if (interv.hours == req.body.time) {
-                                    checkInterv = true;
-                                    const seats = interv.seats;
-                                    const nb_spots = seats + req.body.nb_spots;
-                                    interv.id_resa.push(reservation._id);
-                                    const id_resa = interv.id_resa;
-                                    const intvalue = {
-                                        ...interv,
-                                        seats: nb_spots,
-                                        id_resa
-                                    };
-                                    return intvalue;
-                                }
-                                else {
-                                    return interv
-                                }
-                            })
-                        ]
-                    }
-                    if (!checkInterv) {
-                        value.interval.push({
-                            hours: req.body.time,
-                            seats: req.body.nb_spots,
-                            id_resa: [
-                                reservation._id
+        if (!bool) {
+            //if ((req.body.status).toString() != 'done' || (req.body.status).toString() != 'disable') {
+
+            //update
+            const dateresaIndex = dateresa.info.findIndex(
+                (i) => i.date === req.body.date_reservation
+            );
+            if (dateresaIndex > 0) {
+
+                dateresa.info = dateresa.info.map(i => {
+                    if (i.date == req.body.date_reservation) {
+                        //check = true;
+                        let checkInterv = false;
+                        const y = 0;
+                        const value = {
+                            ...i,
+                            interval: [
+                                ...i.interval.map(interv => {
+                                    if (interv.hours == req.body.time) {
+                                        checkInterv = true;
+                                        const seats = interv.seats;
+                                        const nb_spots = seats + req.body.nb_spots;
+                                        interv.id_resa.push(reservation._id);
+                                        const id_resa = interv.id_resa;
+                                        const intvalue = {
+                                            ...interv,
+                                            seats: nb_spots,
+                                            id_resa
+                                        };
+                                        return intvalue;
+                                    }
+                                    else {
+                                        return interv
+                                    }
+                                })
                             ]
-                        })
+                        }
+                        if (!checkInterv) {
+                            value.interval.push({
+                                hours: req.body.time,
+                                seats: req.body.nb_spots,
+                                id_resa: [
+                                    reservation._id
+                                ]
+                            })
+                        }
+                        return value;
                     }
-                    return value;
-                }
-                else {
-                    return i;
-                }
-            })
+                    else {
+                        return i;
+                    }
+                })
 
-        }
-        else {
+            }
+            else {
 
-            dateresa.info.push({
-                date: req.body.date_reservation,
-                interval: [{
-                    hours: req.body.time,
-                    seats: req.body.nb_spots,
-                    id_resa: [
-                        reservation._id
-                    ]
-                }]
-            })
+                dateresa.info.push({
+                    date: req.body.date_reservation,
+                    interval: [{
+                        hours: req.body.time,
+                        seats: req.body.nb_spots,
+                        id_resa: [
+                            reservation._id
+                        ]
+                    }]
+                })
 
-        }
+            }
 
         }
 
