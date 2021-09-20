@@ -83,12 +83,13 @@ exports.createReservation = async (req, res, next) => {
             console.log("TEST 3: ", saveddateresa.info[1].interval)*/
 
             const dateresaIndex = dateresa.info.findIndex(
-                (i) => i.date === req.body.date_reservation
+                (i) => i.date == req.body.date_reservation
             );
-            if (dateresaIndex > 0) {
+            if (dateresaIndex != -1) {
 
                 dateresa.info = dateresa.info.map(i => {
                     if (i.date == req.body.date_reservation) {
+
                         //check = true;
                         let checkInterv = false;
                         const y = 0;
