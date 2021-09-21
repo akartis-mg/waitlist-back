@@ -29,7 +29,8 @@ exports.getAvailableTimes = async (req, res, next) => {
     console.log("date",daySelected);
 
     try {
-        const dateresa = await Dateresa.findOne({ bid: bid , "info.date" : daySelected    })
+        const dateresa = await Dateresa.findOne({ bid: bid}, {info : { $elemMatch: { date : daySelected  } }  })
+
         const branch = await Branch.findOne({  _id : bid  })
 
         //get available hour for day clicked
@@ -42,6 +43,8 @@ exports.getAvailableTimes = async (req, res, next) => {
 
 
 
+
+
           console.log("date",dateresa);
 
           if(dateresa){
@@ -50,7 +53,7 @@ exports.getAvailableTimes = async (req, res, next) => {
 
                     dateresa.info
                     .map((ht) => {
-                    console.log("taken ", ht.interval);
+                  //  console.log("taken ", ht.interval);
                     intervalHours = ht.interval;
                     });
 
@@ -58,6 +61,8 @@ exports.getAvailableTimes = async (req, res, next) => {
 
                 if (intervalHours.length > 0) {
                 
+
+                    console.log("eo ian ");
 
                     for (var i = 0; i < timesAvailable.length; i++) {
                     for (var j = 0; j < intervalHours.length; j++) {
@@ -72,6 +77,7 @@ exports.getAvailableTimes = async (req, res, next) => {
                             timesAvailable.splice(i, 1);
                         } else {
                             //set new seats available
+                            console.log("testing.........");
                             timesAvailable[i].seats =
                             branch.spots.available - intervalHours[j].seats;
                         }
