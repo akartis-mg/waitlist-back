@@ -48,7 +48,7 @@ exports.getCompany = async (req, res, next) => {
 
 exports.updateCompany = async (req, res, next) => {
 
-    const cid = req.body.companyId;
+    const cid = req.body.cid;
 
     try {
         const company = await Company.findOne({ _id: cid });

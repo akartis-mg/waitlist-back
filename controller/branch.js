@@ -87,7 +87,7 @@ exports.getBranch = async (req, res, next) => {
 
 // Update a todo
 exports.updateBranch = async (req, res, next) => {
-    const bid = req.body.branchId;
+    const bid = req.body.bid;
 
     try {
         const branch = await Branch.findOne({ _id: bid });
