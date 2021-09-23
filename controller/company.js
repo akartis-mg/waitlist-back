@@ -80,7 +80,7 @@ exports.deleteCompany = async (req, res, next) => {
             return next(new ErrorResponse("Company cannot be updated", 404));
         }
 
-        company.IsActive = false;
+        company.isActive = false;
         const deletedcompany = await company.save();
 
         res.status(200).json(deletedcompany);

@@ -123,7 +123,7 @@ exports.deleteBranch = async (req, res, next) => {
             return next(new ErrorResponse("Branch cannot be deleted", 404));
         }
 
-        branch.IsActive = false;
+        branch.isActive = false;
         const deletedBranch = await branch.save();
 
         // const cid = branch.cid;
