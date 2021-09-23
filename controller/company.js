@@ -1,5 +1,6 @@
 const Company = require('../models/Company');
 const TypeCompany = require('../models/TypeCompany');
+const ErrorResponse = require('../utils/errorResponse')
 
 exports.createCompany = async (req, res, next) => {
     const onecompany = new Company(req.body.company);
@@ -59,7 +60,7 @@ exports.updateCompany = async (req, res, next) => {
 
         company.isActive = req.body.company.isActive;
         const typeCompany = await TypeCompany.findOne({ _id: req.body.typeCompanyID });
-        company.typeCompanyID = typeCompany ;
+        company.typeCompanyID = typeCompany;
         company.logo = req.body.company.logo;
         company.name = req.body.company.name;
         const updatedcompany = await company.save();
