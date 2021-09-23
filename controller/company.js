@@ -35,7 +35,7 @@ exports.getOneCompany = async (req, res, next) => {
 exports.getCompany = async (req, res, next) => {
 
     try {
-        const company = await Company.find({ isActive: true }).populate('branchs');
+        const company = await Company.find({}).populate('branchs');
 
         res.status(200).json(company);
 
