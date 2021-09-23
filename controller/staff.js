@@ -1,12 +1,12 @@
 const Company = require('../models/Company');
 const Branch = require('../models/Branch');
 const Staff = require('../models/Staff');
-
+const sendEmail = require('../utils/sendEmail');
 
 exports.createStaff = async (req, res, next) => {
 
     const bid = [req.body.bid];
-    const staff = new Staff(req.body);
+    const staff = new Staff(req.body.manager);
 
     try {
         const savedstaff = await staff.save();
@@ -20,8 +20,29 @@ exports.createStaff = async (req, res, next) => {
         });
 
 
+        // Create a link to reset the password and a message to send to the client by email
+        const welcomeUrl = `${process.env.SERVER_URL}/login-business`;
+        const message = `
+            <h1>You have requested a password reset</h1>
+            <p>Please go to that link to reset your password</p>
+            <a href=${welcomeUrl} clicktracking=off>${welcomeUrl}</a>
+        `
 
-        res.status(200).json(savedstaff);
+        // Send email to the client
+        try {
+            await sendEmail({
+                to: savedstaff.email,
+                subject: "Account created",
+                text: message
+            });
+
+            res.status(200).json({
+                success: true,
+                date: "Email sent"
+            })
+        } catch (error) {
+            return next(new ErrorResponse("Email could not be sent", 500));
+        }
     } catch (error) {
         next(error);
     }
