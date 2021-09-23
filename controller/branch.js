@@ -96,6 +96,7 @@ exports.updateBranch = async (req, res, next) => {
             return next(new ErrorResponse("Branch cannot be updated", 404));
         }
 
+        branch.isActive = req.body.isActive;
         branch.name = req.body.name;
         branch.average_duration = req.body.average_duration;
         branch.address = req.body.address;
