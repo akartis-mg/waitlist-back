@@ -48,7 +48,7 @@ exports.getCompany = async (req, res, next) => {
 
 exports.updateCompany = async (req, res, next) => {
 
-    const cid = req.body.cid;
+    const cid = req.body.company.cid;
 
     try {
         const company = await Company.findOne({ _id: cid });
@@ -57,10 +57,11 @@ exports.updateCompany = async (req, res, next) => {
             return next(new ErrorResponse("company cannot be updated", 404));
         }
 
-        company.isActive = req.body.isActive;
-        company.typeCompanyID = req.body.typeCompanyID;
-        company.logo = req.body.logo;
-        company.name = req.body.name;
+        company.isActive = req.body.company.isActive;
+        const typeCompany = await TypeCompany.findOne({ _id: req.body.typeCompanyID });
+        company.typeCompanyID = typeCompany ;
+        company.logo = req.body.company.logo;
+        company.name = req.body.company.name;
         const updatedcompany = await company.save();
 
         res.status(200).json(updatedcompany);
