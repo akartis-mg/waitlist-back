@@ -57,6 +57,8 @@ exports.updateCompany = async (req, res, next) => {
             return next(new ErrorResponse("company cannot be updated", 404));
         }
 
+        company.typeCompanyID = req.body.typeCompanyID;
+        company.logo = req.body.logo;
         company.name = req.body.name;
         const updatedcompany = await company.save();
 
