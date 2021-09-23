@@ -71,7 +71,6 @@ const BranchSchema = new mongoose.Schema(
 
     spots: {
       available: { type: Number },
-      not_available: { type: Number },
     },
 
     staffs: [
