@@ -23,8 +23,8 @@ exports.createStaff = async (req, res, next) => {
         // Create a link to reset the password and a message to send to the client by email
         const welcomeUrl = `${process.env.SERVER_URL}/login-business`;
         const message = `
-            <h1>You have requested a password reset</h1>
-            <p>Please go to that link to reset your password</p>
+            <h1>You have requested a creation account</h1>
+            <p>Please go to that link to create your account</p>
             <a href=${welcomeUrl} clicktracking=off>${welcomeUrl}</a>
         `
 
@@ -111,6 +111,30 @@ exports.updateStaff = async (req, res, next) => {
         const updateStaff = await staff.save();
 
         res.status(200).json(updateStaff);
+
+         // Create a link to reset the password and a message to send to the client by email
+         const welcomeUrl = `${process.env.SERVER_URL}/login-business`;
+         const message = `
+             <h1>You have requested a update account</h1>
+             <p>Please go to that link to update your account</p>
+             <a href=${welcomeUrl} clicktracking=off>${welcomeUrl}</a>
+         `
+ 
+         // Send email to the client
+         try {
+             await sendEmail({
+                 to: savedstaff.email,
+                 subject: "Account updated",
+                 text: message
+             });
+ 
+             res.status(200).json({
+                 success: true,
+                 date: "Email sent"
+             })
+         } catch (error) {
+             return next(new ErrorResponse("Email could not be sent", 500));
+         }
 
     } catch (error) {
         next(error);
