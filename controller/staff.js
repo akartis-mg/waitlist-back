@@ -2,6 +2,7 @@ const Company = require('../models/Company');
 const Branch = require('../models/Branch');
 const Staff = require('../models/Staff');
 const sendEmail = require('../utils/sendEmail');
+const ErrorResponse = require('../utils/errorResponse')
 
 exports.createStaff = async (req, res, next) => {
 
@@ -88,9 +89,28 @@ exports.getStaffManager = async (req, res, next) => {
 }
 
 
+exports.getStaff = async (req, res, next) => {
+
+    const bid = req.params.bid;
+  //  const type = req.params.type;
+
+    try {
+            const resultstaff = await Staff.find( { bid : { $in : bid }  }); 
+            const lastresult =   resultstaff.filter( rs =>  rs.type != "Manager" );
+            
+           res.status(200).json(lastresult);
+            
+       
+
+    } catch (error) {
+        next(error);
+    }
+}
+
+
 // Update a todo
 exports.updateStaff = async (req, res, next) => {
-    const sid = req.body.staffId;
+    const sid = req.body._id;
 
     try {
         const staff = await Staff.findOne({ _id: sid });
@@ -99,14 +119,16 @@ exports.updateStaff = async (req, res, next) => {
             return next(new ErrorResponse("Staff cannot be updated", 404));
         }
 
-        staff.name = req.body.name;
+
+        staff.firstname = req.body.firstname;
+        staff.lastname = req.body.lastname;
         staff.email = req.body.email;
         staff.password = req.body.password;
         staff.type = req.body.type;
 
         const updateStaff = await staff.save();
 
-        res.status(200).json(updateStaff);
+       
 
          // Create a link to reset the password and a message to send to the client by email
          const welcomeUrl = `${process.env.SERVER_URL}/login-business`;
@@ -119,18 +141,16 @@ exports.updateStaff = async (req, res, next) => {
          // Send email to the client
          try {
              await sendEmail({
-                 to: savedstaff.email,
+                 to: updateStaff.email,
                  subject: "Account updated",
                  text: message
              });
- 
-             res.status(200).json({
-                 success: true,
-                 date: "Email sent"
-             })
+            
          } catch (error) {
              return next(new ErrorResponse("Email could not be sent", 500));
          }
+
+          res.status(200).json(updateStaff);
 
     } catch (error) {
         next(error);
