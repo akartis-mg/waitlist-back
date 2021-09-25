@@ -64,27 +64,19 @@ exports.getOneStaff = async (req, res, next) => {
 }
 
 
-exports.getStaff = async (req, res, next) => {
+exports.getStaffManager = async (req, res, next) => {
 
+    const bid = req.body.bid;
     const type = req.body.type;
 
     try {
 
-        if (type === "Manager") {
-            const sid = req.body.sid;
-            const staff = await Staff.findOne({ _id: sid });
-            const resultstaff = await Staff.findOne({ bid: staff.bid, _ui: sid });
+              
+            const resultstaff = await Staff.find({ bid : {$in: bid } } , { type : { $eq :  "Manager"  }  } );
+           // const resultstaff = await Staff.findOne({ bid: staff.bid, _ui: sid });
+           console.log(resultstaff);
             res.status(200).json(resultstaff);
-        }
-
-        else {
-
-            const staff = await Staff.find({});
-            res.status(200).json(staff);
-
-        }
-
-
+       
 
     } catch (error) {
         next(error);
