@@ -68,15 +68,17 @@ exports.getStaffManager = async (req, res, next) => {
 
     const bid = req.params.bid;
   //  const type = req.params.type;
-    let  resultstaff = null;
 
     try {
 
           
-            const resultstaff = await Staff.find( { bid : { $in : bid }  }).filter( rs =>  rs.type == "Manager"  )
+            const resultstaff = await Staff.find( { bid : { $in : bid }  }); 
+            const lastresult =   resultstaff.filter( rs =>  rs.type == "Manager" );
             
            // const resultstaff = await Staff.findOne({ bid: staff.bid, _ui: sid });
-           console.log(resultstaff);
+           console.log(lastresult);
+
+           res.status(200).json(lastresult);
             
        
 
