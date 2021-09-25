@@ -9,7 +9,7 @@ const { createCompany, getOneCompany, getCompany, updateCompany, deleteCompany }
 const router = express.Router();
 
 router.route("/newCompany").post(auth, createCompany);
-router.route("/findOneCompany").get(auth, getOneCompany);
+router.route("/findOneCompany/:cid").get(auth, getOneCompany);
 router.route("/findAllCompany").get(getCompany);
 router.route("/updateCompany").put(auth, updateCompany);
 router.route("/deleteCompany").delete(auth, deleteCompany);

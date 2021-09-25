@@ -21,7 +21,7 @@ exports.createCompany = async (req, res, next) => {
 
 exports.getOneCompany = async (req, res, next) => {
 
-    const cid = req.body.companyId;
+    const cid = req.params.cid;
 
     try {
         const company = await Company.findOne({ _id: cid })

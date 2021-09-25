@@ -34,7 +34,7 @@ exports.createBranch = async (req, res, next) => {
 
 exports.getOneBranch = async (req, res, next) => {
 
-    const bid = req.body.branchId;
+    const bid = req.params.bid;
 
     try {
         const branch = await Branch.findOne({ _id: bid })
