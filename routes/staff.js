@@ -9,6 +9,6 @@ router.route("/findOneStaff").get( auth , getOneStaff);
 router.route("/findStaffManager/:bid").get( auth , getStaffManager);
 router.route("/findStaff/:bid").get( auth , getStaff);
 router.route("/updateStaff").put(auth ,  updateStaff);
-router.route("/deleteStaff").delete( auth ,  deleteStaff);
+router.route("/deleteStaff/:sid").delete( auth ,  deleteStaff);
 
 module.exports = router;

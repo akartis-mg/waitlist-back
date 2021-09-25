@@ -119,7 +119,6 @@ exports.updateStaff = async (req, res, next) => {
             return next(new ErrorResponse("Staff cannot be updated", 404));
         }
 
-
         staff.firstname = req.body.firstname;
         staff.lastname = req.body.lastname;
         staff.email = req.body.email;
@@ -127,6 +126,8 @@ exports.updateStaff = async (req, res, next) => {
         staff.type = req.body.type;
 
         const updateStaff = await staff.save();
+
+
 
        
 
@@ -160,7 +161,7 @@ exports.updateStaff = async (req, res, next) => {
 
 // Delete a todo
 exports.deleteStaff = async (req, res, next) => {
-    const sid = req.body.staffId;
+    const sid = req.params.sid;
 
     try {
         const staff = await Staff.findOne({ _id: sid });
@@ -186,6 +187,7 @@ exports.deleteStaff = async (req, res, next) => {
         });
 
 
+        console.log(deletedStaff);
 
         res.status(202).json(deletedStaff);
 

@@ -6,7 +6,7 @@ const auth = require('../middleware/auth');
 
 router.route("/newReservation").post(auth, createReservation);
 router.route("/findReservation/:bid").get(auth, getReservationByBranchId);
-router.route("/findAllReservation").get(auth, getReservation);
+router.route("/findAllReservation/:uid/:type").get(auth, getReservation);
 router.route("/updateReservation").put(auth, updateReservation);
 router.route("/deleteReservation").delete(auth, deleteReservation);
 

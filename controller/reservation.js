@@ -197,13 +197,13 @@ exports.getReservationByBranchId = async (req, res, next) => {
 
 exports.getReservation = async (req, res, next) => {
 
-    const type = req.body.type;
+    const type = req.params.type;
 
     try {
 
-        if (type === "Customer") {
-            const uid = req.body.uid;
-            const reservation = await Reservation.find({ uid: uid });
+        if (type == "customer") {
+
+            const reservation = await Reservation.find({ uid: req.params.uid });
 
             res.status(200).json(reservation);
 
