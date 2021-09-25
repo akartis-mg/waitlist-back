@@ -67,7 +67,7 @@ exports.getOneStaff = async (req, res, next) => {
 exports.getStaffManager = async (req, res, next) => {
 
     const bid = req.params.bid;
-    const type = req.params.type;
+  //  const type = req.params.type;
 
     try {
 
