@@ -72,10 +72,19 @@ exports.getStaffManager = async (req, res, next) => {
     try {
 
           
-            const resultstaff = await Staff.find( { type : "Manager"  }  ,  { arrayFilters: [{ 'bid': bid }]  } );
+            const resultstaff = await Staff.find( { type : "Manager"  }  ,  { arrayFilters: [{ 'bid': bid }]    } , (err, res) => {
+                // check if res was found
+                if (res) {
+                    res.status(200).json(res);
+                   
+                } else {
+                    console.log('updated existing locale')
+                }
+            } )
+            
            // const resultstaff = await Staff.findOne({ bid: staff.bid, _ui: sid });
            console.log(resultstaff);
-            res.status(200).json(resultstaff);
+            
        
 
     } catch (error) {
