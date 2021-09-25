@@ -1,6 +1,7 @@
 const Company = require('../models/Company');
 const Branch = require('../models/Branch');
 const Staff = require('../models/Staff');
+const ErrorResponse = require('../utils/errorResponse')
 
 
 exports.createBranch = async (req, res, next) => {
@@ -87,7 +88,7 @@ exports.getBranch = async (req, res, next) => {
 
 // Update a todo
 exports.updateBranch = async (req, res, next) => {
-    const bid = req.body.bid;
+    const bid = req.body.branch._id;
 
     try {
         const branch = await Branch.findOne({ _id: bid });
@@ -96,12 +97,12 @@ exports.updateBranch = async (req, res, next) => {
             return next(new ErrorResponse("Branch cannot be updated", 404));
         }
 
-        branch.isActive = req.body.isActive;
-        branch.name = req.body.name;
-        branch.average_duration = req.body.average_duration;
-        branch.address = req.body.address;
-        branch.info = req.body.info;
-        branch.spots = req.body.spots;
+        branch.isActive = req.body.branch.isActive;
+        branch.name = req.body.branch.name;
+        branch.average_duration = req.body.branch.average_duration;
+        branch.address = req.body.branch.address;
+        branch.info = req.body.branch.info;
+        branch.spots = req.body.branch.spots;
 
         const updatedBranch = await branch.save();
 
